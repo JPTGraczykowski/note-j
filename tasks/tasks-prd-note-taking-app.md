@@ -91,7 +91,7 @@ Based on PRD: `prd-note-taking-app.md`
   - [x] 1.6 Install and configure Factory Bot for test data
 
 - [ ] 2.0 Create Database Models and Relationships  
-  - [ ] 2.1 Generate User model with OAuth fields (provider, uid, email, name)
+  - [x] 2.1 Generate User model with OAuth fields (provider, uid, email, name)
   - [ ] 2.2 Generate Folder model with hierarchical structure (name, parent_id, user_id)
   - [ ] 2.3 Generate Tag model (name, user_id)
   - [ ] 2.4 Generate Note model (title, content, folder_id, user_id)
