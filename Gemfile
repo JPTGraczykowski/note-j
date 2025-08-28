@@ -62,9 +62,12 @@ group :development, :test do
 
   # RSpec for testing instead of Minitest
   gem "rspec-rails"
-
+  
   # Factory Bot for test data generation
   gem "factory_bot_rails"
+  
+  # Load environment variables from .env file
+  gem "dotenv-rails"
 end
 
 group :development do
