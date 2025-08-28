@@ -83,8 +83,8 @@ Based on PRD: `prd-note-taking-app.md`
 ## Tasks
 
 - [ ] 1.0 Setup Authentication and Dependencies
-  - [ ] 1.1 Add required gems to Gemfile (omniauth-google-oauth2, omniauth-rails_csrf_protection, tailwindcss-rails, image_processing, redcarpet, rspec-rails, factory_bot_rails)
-  - [ ] 1.2 Run bundle install to install new dependencies
+  - [x] 1.1 Add required gems to Gemfile (omniauth-google-oauth2, omniauth-rails_csrf_protection, tailwindcss-rails, image_processing, redcarpet, rspec-rails, factory_bot_rails)
+  - [x] 1.2 Run bundle install to install new dependencies
   - [ ] 1.3 Configure OmniAuth for Google OAuth with initializer
   - [ ] 1.4 Set up Active Storage for image uploads
   - [ ] 1.5 Install and configure RSpec for testing
