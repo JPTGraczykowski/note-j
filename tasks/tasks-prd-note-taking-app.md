@@ -87,7 +87,7 @@ Based on PRD: `prd-note-taking-app.md`
   - [x] 1.2 Run bundle install to install new dependencies
   - [x] 1.3 Configure OmniAuth for Google OAuth with initializer
   - [x] 1.4 Set up Active Storage for image uploads
-  - [ ] 1.5 Install and configure RSpec for testing
+  - [x] 1.5 Install and configure RSpec for testing
   - [ ] 1.6 Install and configure Factory Bot for test data
 
 - [ ] 2.0 Create Database Models and Relationships  
