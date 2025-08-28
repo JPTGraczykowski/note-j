@@ -82,13 +82,13 @@ Based on PRD: `prd-note-taking-app.md`
 
 ## Tasks
 
-- [ ] 1.0 Setup Authentication and Dependencies
+- [x] 1.0 Setup Authentication and Dependencies
   - [x] 1.1 Add required gems to Gemfile (omniauth-google-oauth2, omniauth-rails_csrf_protection, tailwindcss-rails, image_processing, redcarpet, rspec-rails, factory_bot_rails)
   - [x] 1.2 Run bundle install to install new dependencies
   - [x] 1.3 Configure OmniAuth for Google OAuth with initializer
   - [x] 1.4 Set up Active Storage for image uploads
   - [x] 1.5 Install and configure RSpec for testing
-  - [ ] 1.6 Install and configure Factory Bot for test data
+  - [x] 1.6 Install and configure Factory Bot for test data
 
 - [ ] 2.0 Create Database Models and Relationships  
   - [ ] 2.1 Generate User model with OAuth fields (provider, uid, email, name)
