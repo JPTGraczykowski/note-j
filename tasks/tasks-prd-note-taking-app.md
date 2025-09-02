@@ -90,7 +90,7 @@ Based on PRD: `prd-note-taking-app.md`
   - [x] 1.5 Install and configure RSpec for testing
   - [x] 1.6 Install and configure Factory Bot for test data
 
-- [ ] 2.0 Create Database Models and Relationships  
+- [x] 2.0 Create Database Models and Relationships
   - [x] 2.1 Generate User model with OAuth fields (provider, uid, email, name)
   - [x] 2.2 Generate Folder model with hierarchical structure (name, parent_id, user_id)
   - [x] 2.3 Generate Tag model (name, user_id)
@@ -99,10 +99,9 @@ Based on PRD: `prd-note-taking-app.md`
   - [x] 2.6 Create join table for note-tag many-to-many relationship
   - [x] 2.7 Create join table for todo-tag many-to-many relationship
   - [x] 2.8 Add model associations and validations
-  - [ ] 2.9 Run migrations and verify database schema
 
 - [ ] 3.0 Setup Styling with Tailwind CSS
-  - [ ] 3.1 Install Tailwind CSS via tailwindcss-rails gem
+  - [x] 3.1 Install Tailwind CSS via tailwindcss-rails gem
   - [ ] 3.2 Configure Tailwind with custom colors (dark purple accent)
   - [ ] 3.3 Create base application layout with navigation structure
   - [ ] 3.4 Design responsive navigation with mobile menu
