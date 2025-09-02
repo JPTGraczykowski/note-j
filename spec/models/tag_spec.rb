@@ -32,6 +32,17 @@ RSpec.describe Tag, type: :model do
     end
   end
 
+  context "associations" do
+    it "belongs to user" do
+      expect(Tag.reflect_on_association(:user).macro).to eq(:belongs_to)
+    end
+
+    it "has many notes" do
+      expect(Tag.reflect_on_association(:notes).macro).to eq(:has_many)
+      expect(Tag.reflect_on_association(:notes).through_reflection.name).to eq(:notes_tags)
+    end
+  end
+
   context "scopes" do
     it "finds tags for specific user" do
       user1 = create(:user)

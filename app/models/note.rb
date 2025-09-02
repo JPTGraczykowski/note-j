@@ -5,6 +5,8 @@ class Note < ApplicationRecord
   belongs_to :user
 
   has_many_attached :images
+  has_many :notes_tags
+  has_many :tags, through: :notes_tags
 
   validates :title, presence: true, length: { maximum: 200 }
 
@@ -13,6 +15,7 @@ class Note < ApplicationRecord
   scope :without_folder, -> { where(folder: nil) }
   scope :recent, -> { order(created_at: :desc) }
   scope :search_by_title, ->(query) { where("title LIKE ?", "%#{query}%") }
+  scope :tagged_with, ->(tag_name) { joins(:tags).where(tags: { name: tag_name }) }
 
   def folder_name
     folder&.name || "No folder"
@@ -24,5 +27,9 @@ class Note < ApplicationRecord
 
   def has_images?
     images.attached?
+  end
+
+  def tag_names
+    tags.pluck(:name)
   end
 end

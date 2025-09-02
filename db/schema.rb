@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_02_122212) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_02_122851) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -65,6 +65,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_02_122212) do
     t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
+  create_table "notes_tags", force: :cascade do |t|
+    t.integer "note_id", null: false
+    t.integer "tag_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["note_id", "tag_id"], name: "index_notes_tags_on_note_id_and_tag_id", unique: true
+    t.index ["note_id"], name: "index_notes_tags_on_note_id"
+    t.index ["tag_id", "note_id"], name: "index_notes_tags_on_tag_id_and_note_id"
+    t.index ["tag_id"], name: "index_notes_tags_on_tag_id"
+    t.index ["user_id"], name: "index_notes_tags_on_user_id"
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "name", null: false
     t.integer "user_id", null: false
@@ -105,6 +118,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_02_122212) do
   add_foreign_key "folders", "users"
   add_foreign_key "notes", "folders"
   add_foreign_key "notes", "users"
+  add_foreign_key "notes_tags", "notes"
+  add_foreign_key "notes_tags", "tags"
+  add_foreign_key "notes_tags", "users"
   add_foreign_key "tags", "users"
   add_foreign_key "todos", "users"
 end

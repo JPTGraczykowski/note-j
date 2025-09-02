@@ -57,6 +57,11 @@ RSpec.describe Note, type: :model do
 
       expect(note.images).to be_instance_of(ActiveStorage::Attached::Many)
     end
+
+    it "has many tags" do
+      expect(Note.reflect_on_association(:tags).macro).to eq(:has_many)
+      expect(Note.reflect_on_association(:tags).through_reflection.name).to eq(:notes_tags)
+    end
   end
 
   context "scopes" do
@@ -111,6 +116,18 @@ RSpec.describe Note, type: :model do
       expect(search_results).to include(matching_note)
       expect(search_results).not_to include(non_matching_note)
     end
+
+    it "finds notes tagged with specific tag" do
+      user = create(:user)
+      tag = create(:tag, name: "important", user: user)
+      tagged_note = create(:note, user: user)
+      untagged_note = create(:note, user: user)
+      NotesTag.create(note: tagged_note, tag: tag, user: user)
+
+      tagged_notes = Note.tagged_with("important")
+      expect(tagged_notes).to include(tagged_note)
+      expect(tagged_notes).not_to include(untagged_note)
+    end
   end
 
   context "methods" do
@@ -146,6 +163,17 @@ RSpec.describe Note, type: :model do
       note = create(:note)
 
       expect(note.has_images?).to be false
+    end
+
+    it "returns tag names" do
+      user = create(:user)
+      note = create(:note, user: user)
+      tag1 = create(:tag, name: "work", user: user)
+      tag2 = create(:tag, name: "urgent", user: user)
+      NotesTag.create(note: note, tag: tag1, user: user)
+      NotesTag.create(note: note, tag: tag2, user: user)
+
+      expect(note.tag_names).to match_array(["work", "urgent"])
     end
   end
 
