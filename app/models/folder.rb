@@ -2,6 +2,7 @@ class Folder < ApplicationRecord
   belongs_to :user
   belongs_to :parent, class_name: "Folder", optional: true
   has_many :children, class_name: "Folder", foreign_key: :parent_id, dependent: :destroy
+  has_many :notes, dependent: :destroy
 
   validates :name, presence: true, uniqueness: { scope: :user_id }
   validate :cannot_be_parent_of_itself

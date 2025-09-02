@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_02_120331) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_02_121202) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -50,6 +50,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_02_120331) do
     t.index ["user_id"], name: "index_folders_on_user_id"
   end
 
+  create_table "notes", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "content"
+    t.integer "folder_id"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["folder_id"], name: "index_notes_on_folder_id"
+    t.index ["title"], name: "index_notes_on_title"
+    t.index ["user_id", "created_at"], name: "index_notes_on_user_id_and_created_at"
+    t.index ["user_id", "folder_id"], name: "index_notes_on_user_id_and_folder_id"
+    t.index ["user_id", "title"], name: "index_notes_on_user_id_and_title"
+    t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "name", null: false
     t.integer "user_id", null: false
@@ -77,5 +92,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_02_120331) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "folders", "folders", column: "parent_id"
   add_foreign_key "folders", "users"
+  add_foreign_key "notes", "folders"
+  add_foreign_key "notes", "users"
   add_foreign_key "tags", "users"
 end

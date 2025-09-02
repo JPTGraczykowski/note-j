@@ -3,6 +3,7 @@ class User < ApplicationRecord
 
   has_many :folders, dependent: :destroy
   has_many :tags, dependent: :destroy
+  has_many :notes, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :name, presence: true
