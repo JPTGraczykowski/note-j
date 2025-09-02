@@ -98,7 +98,7 @@ Based on PRD: `prd-note-taking-app.md`
   - [x] 2.5 Generate Todo model (description, completed, user_id)
   - [x] 2.6 Create join table for note-tag many-to-many relationship
   - [x] 2.7 Create join table for todo-tag many-to-many relationship
-  - [ ] 2.8 Add model associations and validations
+  - [x] 2.8 Add model associations and validations
   - [ ] 2.9 Run migrations and verify database schema
 
 - [ ] 3.0 Setup Styling with Tailwind CSS

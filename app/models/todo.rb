@@ -1,7 +1,7 @@
 class Todo < ApplicationRecord
   belongs_to :user
 
-  has_many :todos_tags
+  has_many :todos_tags, dependent: :destroy
   has_many :tags, through: :todos_tags
 
   validates :description, presence: true, length: { maximum: 1000 }

@@ -41,6 +41,11 @@ RSpec.describe Tag, type: :model do
       expect(Tag.reflect_on_association(:notes).macro).to eq(:has_many)
       expect(Tag.reflect_on_association(:notes).through_reflection.name).to eq(:notes_tags)
     end
+
+    it "has many todos" do
+      expect(Tag.reflect_on_association(:todos).macro).to eq(:has_many)
+      expect(Tag.reflect_on_association(:todos).through_reflection.name).to eq(:todos_tags)
+    end
   end
 
   context "scopes" do
