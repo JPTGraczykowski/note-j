@@ -1,0 +1,55 @@
+require 'rails_helper'
+
+RSpec.describe Tag, type: :model do
+  context "validations" do
+    it "is valid with name and user" do
+      tag = build(:tag)
+
+      expect(tag).to be_valid
+    end
+
+    it "requires name" do
+      tag = build(:tag, name: nil)
+
+      expect(tag).not_to be_valid
+      expect(tag.errors[:name]).to include("can't be blank")
+    end
+
+    it "requires user" do
+      tag = build(:tag, user: nil)
+
+      expect(tag).not_to be_valid
+      expect(tag.errors[:user]).to include("must exist")
+    end
+
+    it "requires unique name within user scope" do
+      user = create(:user)
+      existing_tag = create(:tag, name: "important", user: user)
+      duplicate_tag = build(:tag, name: "important", user: user)
+
+      expect(duplicate_tag).not_to be_valid
+      expect(duplicate_tag.errors[:name]).to include("has already been taken")
+    end
+  end
+
+  context "scopes" do
+    it "finds tags for specific user" do
+      user1 = create(:user)
+      user2 = create(:user)
+      tag1 = create(:tag, user: user1)
+      tag2 = create(:tag, user: user2)
+
+      user1_tags = Tag.for_user(user1)
+      expect(user1_tags).to include(tag1)
+      expect(user1_tags).not_to include(tag2)
+    end
+  end
+
+  context "methods" do
+    it "returns name as string representation" do
+      tag = build(:tag, name: "important")
+
+      expect(tag.to_s).to eq("important")
+    end
+  end
+end

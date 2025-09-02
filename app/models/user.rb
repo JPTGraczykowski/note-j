@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_secure_password validations: false
 
   has_many :folders, dependent: :destroy
+  has_many :tags, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :name, presence: true
