@@ -53,9 +53,129 @@
   --font-family-sans: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-family-mono: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
 
+  /* Font Sizes - Comprehensive scale for all use cases */
+  --font-size-xs: 0.75rem;      /* 12px */
+  --font-size-sm: 0.875rem;     /* 14px */
+  --font-size-base: 1rem;       /* 16px */
+  --font-size-lg: 1.125rem;     /* 18px */
+  --font-size-xl: 1.25rem;      /* 20px */
+  --font-size-2xl: 1.5rem;      /* 24px */
+  --font-size-3xl: 1.875rem;    /* 30px */
+  --font-size-4xl: 2.25rem;     /* 36px */
+  --font-size-5xl: 3rem;        /* 48px */
+  --font-size-6xl: 3.75rem;     /* 60px */
+  --font-size-7xl: 4.5rem;      /* 72px */
+
+  /* Line Heights - Optimized for readability */
+  --line-height-none: 1;
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /* Letter Spacing - For fine typography control */
+  --letter-spacing-tighter: -0.05em;
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0em;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+  --letter-spacing-widest: 0.1em;
+
+  /* Font Weights - Complete range */
+  --font-weight-thin: 100;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  /* Spacing Scale - Consistent spacing throughout the app */
+  --spacing-px: 1px;
+  --spacing-0: 0px;
+  --spacing-0\.5: 0.125rem;    /* 2px */
+  --spacing-1: 0.25rem;        /* 4px */
+  --spacing-1\.5: 0.375rem;    /* 6px */
+  --spacing-2: 0.5rem;         /* 8px */
+  --spacing-2\.5: 0.625rem;    /* 10px */
+  --spacing-3: 0.75rem;        /* 12px */
+  --spacing-3\.5: 0.875rem;    /* 14px */
+  --spacing-4: 1rem;           /* 16px */
+  --spacing-5: 1.25rem;        /* 20px */
+  --spacing-6: 1.5rem;         /* 24px */
+  --spacing-7: 1.75rem;        /* 28px */
+  --spacing-8: 2rem;           /* 32px */
+  --spacing-9: 2.25rem;        /* 36px */
+  --spacing-10: 2.5rem;        /* 40px */
+  --spacing-11: 2.75rem;       /* 44px */
+  --spacing-12: 3rem;          /* 48px */
+  --spacing-14: 3.5rem;        /* 56px */
+  --spacing-16: 4rem;          /* 64px */
+  --spacing-20: 5rem;          /* 80px */
+  --spacing-24: 6rem;          /* 96px */
+  --spacing-28: 7rem;          /* 112px */
+  --spacing-32: 8rem;          /* 128px */
+  --spacing-36: 9rem;          /* 144px */
+  --spacing-40: 10rem;         /* 160px */
+  --spacing-44: 11rem;         /* 176px */
+  --spacing-48: 12rem;         /* 192px */
+  --spacing-52: 13rem;         /* 208px */
+  --spacing-56: 14rem;         /* 224px */
+  --spacing-60: 15rem;         /* 240px */
+  --spacing-64: 16rem;         /* 256px */
+  --spacing-72: 18rem;         /* 288px */
+  --spacing-80: 20rem;         /* 320px */
+  --spacing-96: 24rem;         /* 384px */
+
+  /* Container Sizes - For consistent content widths */
+  --size-sm: 24rem;      /* 384px */
+  --size-md: 28rem;      /* 448px */
+  --size-lg: 32rem;      /* 512px */
+  --size-xl: 36rem;      /* 576px */
+  --size-2xl: 42rem;     /* 672px */
+  --size-3xl: 48rem;     /* 768px */
+  --size-4xl: 56rem;     /* 896px */
+  --size-5xl: 64rem;     /* 1024px */
+  --size-6xl: 72rem;     /* 1152px */
+  --size-7xl: 80rem;     /* 1280px */
+  --size-full: 100%;
+  --size-screen: 100vw;
+
+  /* Border Radius - For consistent rounded corners */
+  --radius-none: 0px;
+  --radius-sm: 0.125rem;    /* 2px */
+  --radius-md: 0.375rem;    /* 6px */
+  --radius-lg: 0.5rem;      /* 8px */
+  --radius-xl: 0.75rem;     /* 12px */
+  --radius-2xl: 1rem;       /* 16px */
+  --radius-3xl: 1.5rem;     /* 24px */
+  --radius-full: 9999px;
+
   /* Shadows for Clean UI */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* Custom Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s ease-out;
 }
