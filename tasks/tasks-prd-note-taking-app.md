@@ -108,7 +108,7 @@ Based on PRD: `prd-note-taking-app.md`
   - [x] 3.5 Set up typography and spacing utilities
 
 - [ ] 4.0 Build Core Note Management Features
-  - [ ] 4.1 Create notes controller with CRUD actions
+  - [x] 4.1 Create notes controller with CRUD actions
   - [ ] 4.2 Build note listing page with folder navigation
   - [ ] 4.3 Create note creation form with markdown editor
   - [ ] 4.4 Implement note editing functionality

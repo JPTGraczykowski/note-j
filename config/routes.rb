@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   get "/auth/:provider/callback", to: "sessions#omniauth"
   delete "/logout", to: "sessions#destroy"
 
+  # Notes management
+  resources :notes
   # Defines the root path route ("/")
   root "pages#home"
 end
