@@ -39,7 +39,10 @@ Based on PRD: `prd-note-taking-app.md`
 - `app/controllers/todos_controller.rb` - Todo CRUD operations
 - `app/controllers/search_controller.rb` - Search functionality across notes
 - `app/views/layouts/application.html.erb` - Main layout with navigation and responsive design
-- `app/views/notes/index.html.erb` - Notes listing page with search and filters
+- `app/views/notes/index.html.erb` - Notes listing page with filtering and note cards
+- `app/views/notes/_note_card.html.erb` - Individual note card component for grid display
+- `app/views/layouts/_sidebar.html.erb` - Main application sidebar with navigation, folders, and tags
+- `app/views/layouts/_sidebar_folder_item.html.erb` - Folder item component for sidebar navigation
 - `app/views/notes/show.html.erb` - Individual note display with markdown rendering
 - `app/views/notes/new.html.erb` - Note creation form with markdown editor
 - `app/views/notes/edit.html.erb` - Note editing form
@@ -109,7 +112,7 @@ Based on PRD: `prd-note-taking-app.md`
 
 - [ ] 4.0 Build Core Note Management Features
   - [x] 4.1 Create notes controller with CRUD actions
-  - [ ] 4.2 Build note listing page with folder navigation
+  - [x] 4.2 Build note listing page with folder navigation
   - [ ] 4.3 Create note creation form with markdown editor
   - [ ] 4.4 Implement note editing functionality
   - [ ] 4.5 Add markdown rendering for note display

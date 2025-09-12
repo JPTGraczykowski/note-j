@@ -8,6 +8,7 @@ class Tag < ApplicationRecord
   validates :name, presence: true, uniqueness: { scope: :user_id }
 
   scope :for_user, ->(user) { where(user: user) }
+  scope :popular, -> { joins(:notes).group(:name).order("COUNT(notes.id) DESC") }
 
   def to_s
     name

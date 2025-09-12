@@ -1,0 +1,75 @@
+<% content_for :title, "Notes" %>
+
+<div class="max-w-7xl mx-auto px-6 py-8">
+    <!-- Header -->
+    <div class="mb-6">
+      <div class="flex items-center justify-between mb-4">
+        <!-- Breadcrumbs and Title -->
+        <div>
+          <% if @folder %>
+            <nav class="flex items-center space-x-2 text-sm text-neutral-600 mb-2">
+              <%= link_to "Notes", notes_path, class: "hover:text-neutral-900" %>
+              <% @folder.ancestors.reverse.each do |ancestor_folder| %>
+                <%= render "shared/svg/right_arrow" %>
+                <%= link_to ancestor_folder.name, notes_path(folder_id: ancestor_folder.id), class: "hover:text-neutral-900" %>
+              <% end %>
+              <%= render "shared/svg/right_arrow" %>
+              <span class="text-neutral-900 font-medium"><%= @folder.name %></span>
+            </nav>
+            <%= render "shared/page_title", page_title: "Notes in #{@folder.name}" %>
+          <% elsif params[:folder_id] == 'none' %>
+            <nav class="flex items-center space-x-2 text-sm text-neutral-600 mb-2">
+              <%= link_to "Notes", notes_path, class: "hover:text-neutral-900" %>
+              <%= render "shared/svg/right_arrow" %>
+              <span class="text-neutral-900 font-medium">No Folder</span>
+            </nav>
+            <%= render "shared/page_title", page_title: "Notes without folder" %>
+          <% elsif params[:tag].present? %>
+            <nav class="flex items-center space-x-2 text-sm text-neutral-600 mb-2">
+              <%= link_to "Notes", notes_path, class: "hover:text-neutral-900" %>
+              <%= render "shared/svg/right_arrow" %>
+              <span class="text-neutral-900 font-medium">Tagged with "<%= params[:tag] %>"</span>
+            </nav>
+            <%= render "shared/page_title", page_title: "Notes tagged with #{params[:tag]}" %>
+          <% else %>
+            <%= render "shared/page_title", page_title: "All Notes" %>
+          <% end %>
+        </div>
+
+        <!-- New Note Button -->
+        <div class="flex items-center space-x-3">
+          <%= link_to new_note_path, class: "inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-700 rounded-md hover:bg-primary-800 transition-colors" do %>
+            <%= render "shared/svg/plus" %>
+            New Note
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <% if @notes.any? %>
+      <!-- Notes -->
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <% @notes.each do |note| %>
+          <%= render 'note_card', note: note %>
+        <% end %>
+      </div>
+    <% else %>
+      <!-- Empty State -->
+      <div class="text-center py-12">
+        <%= render "shared/svg/note" %>
+        <h3 class="text-lg font-medium text-neutral-900 mb-2">No notes found</h3>
+        <% if params[:tag].present? || params[:folder_id].present? %>
+          <p class="text-neutral-600 mb-4">Try adjusting your filters.</p>
+          <%= link_to notes_path, class: "inline-flex items-center text-sm font-medium text-primary-700 hover:text-primary-800" do %>
+            Clear all filters
+          <% end %>
+        <% else %>
+          <p class="text-neutral-600 mb-4">Create your first note to get started.</p>
+          <%= link_to new_note_path, class: "inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-700 rounded-md hover:bg-primary-800 transition-colors" do %>
+            <%= render "shared/svg/plus" %>
+            Create Note
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+</div>

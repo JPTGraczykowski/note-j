@@ -1,0 +1,8 @@
+<%= link_to notes_path(folder_id: folder.id),
+    class: "flex items-center px-3 py-2 text-sm rounded-md transition-colors #{'bg-primary-100 text-primary-700' if params[:folder_id]&.to_i == folder.id} #{'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100' if params[:folder_id]&.to_i != folder.id}" do %>
+  <%= render "shared/svg/folder" %>
+  <span class="flex-1 truncate"><%= folder.name %></span>
+  <span class="ml-auto text-xs bg-neutral-200 text-neutral-700 px-2 py-0.5 rounded-full">
+    <%= folder.notes.count %>
+  </span>
+<% end %>

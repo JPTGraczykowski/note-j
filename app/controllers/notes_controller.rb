@@ -50,33 +50,23 @@ class NotesController < ApplicationController
 
   def filter_notes
     if params[:folder_id].present?
-      @folder = current_user.folders.find(params[:folder_id])
-      @notes = @notes.where(folder: @folder)
+      if params[:folder_id] == 'none'
+        @notes = @notes.without_folder
+      else
+        @folder = current_user.folders.find(params[:folder_id])
+        @notes = @notes.where(folder: @folder)
+      end
     end
 
     if params[:tag].present?
       @notes = @notes.tagged_with(params[:tag])
     end
 
-    if params[:search].present?
-      query = params[:search].strip
-      @notes = @notes.search_by_title(query)
-    end
   rescue ActiveRecord::RecordNotFound
     redirect_to notes_path, alert: "Filters are not correct."
   end
 
   def note_params
     params.require(:note).permit(:title, :content, :folder_id, tag_ids: [], images: [])
-  end
-
-  def current_user
-    # Placeholder for authentication - will be implemented when we add authentication
-    @current_user ||= User.first || User.create!(
-      name: "Demo User",
-      email: "demo@example.com",
-      provider: "demo",
-      uid: "demo123"
-    )
   end
 end

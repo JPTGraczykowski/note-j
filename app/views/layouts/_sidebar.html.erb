@@ -1,37 +1,67 @@
 <aside class="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 lg:pt-16 lg:pb-4 lg:overflow-y-auto lg:bg-neutral-50 lg:border-r lg:border-neutral-200">
   <div class="px-6 py-4">
-    <!-- Quick Stats -->
+    <!-- Main Navigation -->
     <div class="mb-6">
-      <h3 class="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-3">Overview</h3>
-      <div class="space-y-2">
-        <div class="flex items-center justify-between text-sm">
-          <span class="text-neutral-600">Notes</span>
-          <span class="bg-neutral-200 text-neutral-700 px-2 py-1 rounded-full text-xs">0</span>
-        </div>
-        <div class="flex items-center justify-between text-sm">
-          <span class="text-neutral-600">Todos</span>
-          <span class="bg-neutral-200 text-neutral-700 px-2 py-1 rounded-full text-xs">0</span>
-        </div>
-        <div class="flex items-center justify-between text-sm">
-          <span class="text-neutral-600">Folders</span>
-          <span class="bg-neutral-200 text-neutral-700 px-2 py-1 rounded-full text-xs">0</span>
-        </div>
-      </div>
+      <h3 class="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-3">Navigation</h3>
+      <nav class="space-y-1">
+        <!-- All Notes -->
+        <%= link_to notes_path,
+            class: "flex items-center px-3 py-2 text-sm rounded-md transition-colors #{'bg-primary-100 text-primary-700' if current_page?(notes_path) && !params[:folder_id].present? && !params[:tag].present?} #{'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100' unless current_page?(notes_path) && !params[:folder_id].present? && !params[:tag].present?}" do %>
+          <%= render "shared/svg/note" %>
+          All Notes
+          <span class="ml-auto text-xs bg-neutral-200 text-neutral-700 px-2 py-0.5 rounded-full">
+            <%= current_user.notes.count %>
+          </span>
+        <% end %>
+
+        <!-- Todos -->
+        <a href="#" class="flex items-center px-3 py-2 text-sm rounded-md transition-colors text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100">
+          <%= render "shared/svg/todo" %>
+          Todos
+          <span class="ml-auto text-xs bg-neutral-200 text-neutral-700 px-2 py-0.5 rounded-full">
+            <%= current_user.todos.count %>
+          </span>
+        </a>
+      </nav>
     </div>
 
-    <!-- Recent Tags -->
+    <!-- Folders -->
     <div class="mb-6">
-      <h3 class="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-3">Recent Tags</h3>
-      <div class="space-y-1">
-        <p class="text-sm text-neutral-500">No tags yet</p>
-      </div>
-    </div>
-
-    <!-- Folder Tree -->
-    <div>
       <h3 class="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-3">Folders</h3>
       <div class="space-y-1">
-        <p class="text-sm text-neutral-500">No folders yet</p>
+        <% if current_user.folders.any? %>
+          <% current_user.folders.root_folders.limit(8).each do |folder| %>
+            <%= render 'layouts/sidebar_folder_item', folder: folder %>
+          <% end %>
+          <% if current_user.folders.root_folders.count > 8 %>
+            <div class="px-3 py-1 text-xs text-neutral-500">
+              +<%= current_user.folders.root_folders.count - 8 %> more folders
+            </div>
+          <% end %>
+        <% else %>
+          <p class="text-sm text-neutral-500 px-3 py-2">No folders yet</p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Tags -->
+    <div class="mb-6">
+      <h3 class="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-3">Tags</h3>
+      <div class="space-y-1">
+        <% if current_user.tags.any? %>
+          <% current_user.tags.popular.limit(6).each do |tag| %>
+            <%= link_to notes_path(tag: tag.name),
+                class: "flex items-center px-3 py-2 text-sm rounded-md transition-colors #{'bg-primary-100 text-primary-700' if params[:tag] == tag.name} #{'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100' if params[:tag] != tag.name}" do %>
+              <%= render "shared/svg/tag" %>
+              <%= tag.name %>
+              <span class="ml-auto text-xs bg-neutral-200 text-neutral-700 px-2 py-0.5 rounded-full">
+                <%= tag.notes.count %>
+              </span>
+            <% end %>
+          <% end %>
+        <% else %>
+          <p class="text-sm text-neutral-500 px-3 py-2">No tags yet</p>
+        <% end %>
       </div>
     </div>
   </div>
