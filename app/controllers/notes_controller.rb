@@ -28,7 +28,9 @@ class NotesController < ApplicationController
   end
 
   def update
-    if @note.update(note_params)
+    service = NoteServices::Update.new(params: note_params, note: @note)
+
+    if service.call
       redirect_to @note, notice: "Note was successfully updated."
     else
       render :edit, status: :unprocessable_entity
