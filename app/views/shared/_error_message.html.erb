@@ -1,0 +1,21 @@
+<% error_messages ||= [] %>
+
+<div class="bg-error-50 border border-error-200 rounded-md p-4">
+  <div class="flex">
+    <div class="flex-shrink-0">
+      <%= render "shared/svg/error_icon" %>
+    </div>
+    <div class="ml-3">
+      <h3 class="text-sm font-medium text-error-800">
+        <%= pluralize(error_messages.count, "error") %> prohibited this note from being saved:
+      </h3>
+      <div class="mt-2 text-sm text-error-700">
+        <ul class="list-disc list-inside space-y-1">
+          <% error_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
