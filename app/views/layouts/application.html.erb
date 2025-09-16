@@ -26,18 +26,16 @@
     <!-- Navigation Header -->
     <%= render "layouts/navigation_header" %>
 
-    <!-- Flash Messages -->
-    <% if notice %>
-      <div class="bg-success-50 border border-success-200 text-success-800 px-4 py-3 rounded-md mx-6 mt-4" role="alert">
-        <%= notice %>
-      </div>
-    <% end %>
+    <!-- Flash Messages Container -->
+    <div class="fixed top-4 right-4 z-50 space-y-2">
+      <% if notice %>
+        <%= render "shared/success_flash_message", notice: notice %>
+      <% end %>
 
-    <% if alert %>
-      <div class="bg-error-50 border border-error-200 text-error-800 px-4 py-3 rounded-md mx-6 mt-4" role="alert">
-        <%= alert %>
-      </div>
-    <% end %>
+      <% if alert %>
+        <%= render "shared/alert_flash_message", alert: alert %>
+      <% end %>
+    </div>
 
     <div class="flex">
       <!-- Sidebar -->
