@@ -75,7 +75,7 @@
     <!-- Content -->
     <div class="prose prose-neutral max-w-none">
       <% if @note.content.present? %>
-        <%= simple_format(@note.content) %>
+        <%= markdown(@note.content) %>
       <% else %>
         <p class="text-neutral-500 italic">No content yet.</p>
       <% end %>

@@ -14,7 +14,11 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy"
 
   # Notes management
-  resources :notes
+  resources :notes do
+    collection do
+      post :preview_markdown
+    end
+  end
   # Defines the root path route ("/")
   root "pages#home"
 end

@@ -39,7 +39,7 @@ export default class extends Controller {
     this.updatePreview()
   }
 
-  updatePreview() {
+  async updatePreview() {
     const content = this.textareaTarget.value
 
     if (!content.trim()) {
@@ -47,53 +47,25 @@ export default class extends Controller {
       return
     }
 
-    // Convert markdown to HTML (basic implementation)
-    const html = this.markdownToHtml(content)
-    this.previewTarget.innerHTML = html
-  }
+    try {
+      const response = await fetch('/notes/preview_markdown', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({ content })
+      })
 
-  markdownToHtml(markdown) {
-    let html = markdown
+      if (!response.ok) {
+        throw new Error('Failed to render markdown')
+      }
 
-    // Headers
-    html = html.replace(/^### (.*$)/gim, '<h3 class="text-lg font-semibold text-neutral-900 mt-4 mb-2">$1</h3>')
-    html = html.replace(/^## (.*$)/gim, '<h2 class="text-xl font-semibold text-neutral-900 mt-6 mb-3">$1</h2>')
-    html = html.replace(/^# (.*$)/gim, '<h1 class="text-2xl font-bold text-neutral-900 mt-8 mb-4">$1</h1>')
-
-    // Bold and Italic
-    html = html.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>')
-    html = html.replace(/\_\_\_(.*?)\_\_\_/g, '<strong><em>$1</em></strong>')
-    html = html.replace(/\_\_(.*?)\_\_/g, '<strong>$1</strong>')
-    html = html.replace(/\_(.*?)\_/g, '<em>$1</em>')
-
-    // Code
-    html = html.replace(/```([\s\S]*?)```/g, '<pre class="bg-neutral-100 rounded-md p-3 my-3 overflow-x-auto"><code class="text-sm font-mono">$1</code></pre>')
-    html = html.replace(/`(.*?)`/g, '<code class="bg-neutral-100 px-1 py-0.5 rounded text-sm font-mono">$1</code>')
-
-    // Links
-    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-primary-600 hover:text-primary-800 underline">$1</a>')
-
-    // Lists
-    html = html.replace(/^\* (.*$)/gim, '<li class="ml-4">$1</li>')
-    html = html.replace(/^- (.*$)/gim, '<li class="ml-4">$1</li>')
-    html = html.replace(/^\+ (.*$)/gim, '<li class="ml-4">$1</li>')
-
-    // Wrap consecutive list items in ul
-    html = html.replace(/(<li.*<\/li>[\s]*)+/g, function(match) {
-      return '<ul class="list-disc list-inside space-y-1 my-3">' + match + '</ul>'
-    })
-
-    // Line breaks
-    html = html.replace(/\n\n/g, '</p><p class="mb-3">')
-    html = html.replace(/\n/g, '<br>')
-
-    // Wrap in paragraphs if not already wrapped
-    if (!html.startsWith('<')) {
-      html = '<p class="mb-3">' + html + '</p>'
+      const data = await response.json()
+      this.previewTarget.innerHTML = data.html
+    } catch (error) {
+      console.error('Error rendering markdown:', error)
+      this.previewTarget.innerHTML = '<p class="text-error-600">Failed to render preview</p>'
     }
-
-    return html
   }
 }

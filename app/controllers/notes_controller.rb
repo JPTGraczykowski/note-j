@@ -42,6 +42,11 @@ class NotesController < ApplicationController
     redirect_to notes_url, notice: "Note was successfully deleted."
   end
 
+  def preview_markdown
+    content = params[:content] || ""
+    render json: { html: helpers.markdown(content) }
+  end
+
   private
 
   def set_note

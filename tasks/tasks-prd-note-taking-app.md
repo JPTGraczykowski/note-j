@@ -110,14 +110,14 @@ Based on PRD: `prd-note-taking-app.md`
   - [x] 3.4 Design responsive navigation with mobile menu
   - [x] 3.5 Set up typography and spacing utilities
 
-- [ ] 4.0 Build Core Note Management Features
+- [x] 4.0 Build Core Note Management Features
   - [x] 4.1 Create notes controller with CRUD actions
   - [x] 4.2 Build note listing page with folder navigation
   - [x] 4.3 Create note creation form with markdown editor
   - [x] 4.4 Implement note editing functionality
-  - [ ] 4.5 Add markdown rendering for note display
-  - [ ] 4.6 Add note deletion with confirmation
-  - [ ] 4.7 Create Stimulus controller for markdown preview
+  - [x] 4.5 Add markdown rendering for note display
+  - [x] 4.6 Add note deletion with confirmation
+  - [x] 4.7 Create Stimulus controller for markdown preview
 
 - [ ] 5.0 Implement Organization System (Folders and Tags)
   - [ ] 5.1 Create folders controller for CRUD operations
