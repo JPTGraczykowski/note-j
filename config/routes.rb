@@ -19,6 +19,10 @@ Rails.application.routes.draw do
       post :preview_markdown
     end
   end
+
+  # Folder management
+  resources :folders
+
   # Defines the root path route ("/")
   root "pages#home"
 end

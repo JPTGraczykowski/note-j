@@ -120,7 +120,7 @@ Based on PRD: `prd-note-taking-app.md`
   - [x] 4.7 Create Stimulus controller for markdown preview
 
 - [ ] 5.0 Implement Organization System (Folders and Tags)
-  - [ ] 5.1 Create folders controller for CRUD operations
+  - [x] 5.1 Create folders controller for CRUD operations
   - [ ] 5.2 Build hierarchical folder tree interface
   - [ ] 5.3 Implement folder-based note filtering
   - [ ] 5.4 Create tags controller for tag management
