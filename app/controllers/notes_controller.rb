@@ -5,6 +5,7 @@ class NotesController < ApplicationController
     @notes = current_user.notes.includes(:folder, :tags, images_attachments: :blob)
     filter_notes
     @notes = @notes.recent
+    @children_folders = @folder.children.order(:name) if @folder
   end
 
   def show
