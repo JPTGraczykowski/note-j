@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   # Folder management
   resources :folders
 
+  # Tag management
+  resources :tags
+
   # Defines the root path route ("/")
   root "pages#home"
 end

@@ -123,7 +123,7 @@ Based on PRD: `prd-note-taking-app.md`
   - [x] 5.1 Create folders controller for CRUD operations
   - [x] 5.2 Build hierarchical folder tree interface
   - [x] 5.3 Implement folder-based note filtering
-  - [ ] 5.4 Create tags controller for tag management
+  - [x] 5.4 Create tags controller for tag management
   - [ ] 5.5 Build tag assignment interface for notes and todos
   - [ ] 5.6 Implement tag-based filtering for notes and todos
   - [ ] 5.7 Create Stimulus controller for folder tree navigation
