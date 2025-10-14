@@ -45,14 +45,7 @@
       <div class="space-y-1">
         <% if current_user.tags.any? %>
           <% current_user.tags.popular.limit(6).each do |tag| %>
-            <%= link_to notes_path(tag: tag.name),
-                class: "flex items-center px-3 py-2 text-sm rounded-md transition-colors #{'bg-primary-100 text-primary-700' if params[:tag] == tag.name} #{'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100' if params[:tag] != tag.name}" do %>
-              <%= render "shared/svg/tag" %>
-              <%= tag.name %>
-              <span class="ml-auto text-xs bg-neutral-200 text-neutral-700 px-2 py-0.5 rounded-full">
-                <%= tag.notes.count %>
-              </span>
-            <% end %>
+            <%= render "layouts/sidebar_tag_item", tag: tag %>
           <% end %>
         <% else %>
           <p class="text-sm text-neutral-500 px-3 py-2">No tags yet</p>

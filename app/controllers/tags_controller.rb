@@ -1,8 +1,11 @@
 class TagsController < ApplicationController
-  before_action :set_tag, only: [:edit, :update, :destroy]
+  before_action :set_tag, only: [:show, :edit, :update, :destroy]
 
   def index
     @tags = current_user.tags.includes(:notes, :todos).order(:name)
+  end
+
+  def show
   end
 
   def new
@@ -24,15 +27,25 @@ class TagsController < ApplicationController
 
   def update
     if @tag.update(tag_params)
-      redirect_to @tag, notice: "Tag was successfully updated."
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("tag_#{@tag.id}", partial: "layouts/sidebar_tag_item", locals: { tag: @tag }) }
+        format.html { redirect_to @tag, notice: "Tag was successfully updated." }
+      end
     else
-      render :edit, status: :unprocessable_entity
+      respond_to do |format|
+        format.turbo_stream { render :edit, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_entity }
+      end
     end
   end
 
   def destroy
     @tag.destroy
-    redirect_to tags_url, notice: "Tag was successfully deleted."
+
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.remove("tag_#{@tag.id}") }
+      format.html { redirect_to tags_url, notice: "Tag was successfully deleted." }
+    end
   end
 
   private
