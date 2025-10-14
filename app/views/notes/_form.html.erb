@@ -32,11 +32,10 @@
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
           <% current_user.tags.order(:name).each do |tag| %>
             <label class="flex items-center space-x-2 text-sm">
-              <%= f.check_box :tag_ids,
-                  { multiple: true, checked: note.tag_ids.include?(tag.id) },
+              <%= check_box_tag 'note[tag_ids][]',
                   tag.id,
-                  '',
-                  { class: "rounded border-neutral-300 text-primary-600 focus:ring-primary-500" } %>
+                  note.tag_ids.include?(tag.id),
+                  class: "rounded border-neutral-300 text-primary-600 focus:ring-primary-500" %>
               <span class="text-neutral-700"><%= tag.name %></span>
             </label>
           <% end %>
