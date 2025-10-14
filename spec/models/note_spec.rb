@@ -81,7 +81,7 @@ RSpec.describe Note, type: :model do
       note_in_folder = create(:note, folder: folder, user: folder.user)
       note_without_folder = create(:note, folder: nil, user: folder.user)
 
-      folder_notes = Note.in_folder(folder)
+      folder_notes = Note.in_folder(folder.id)
       expect(folder_notes).to include(note_in_folder)
       expect(folder_notes).not_to include(note_without_folder)
     end
@@ -121,10 +121,10 @@ RSpec.describe Note, type: :model do
       user = create(:user)
       tag = create(:tag, name: "important", user: user)
       tagged_note = create(:note, user: user)
-      untagged_note = create(:note, user: user)
       NotesTag.create(note: tagged_note, tag: tag, user: user)
+      untagged_note = create(:note, user: user)
 
-      tagged_notes = Note.tagged_with("important")
+      tagged_notes = Note.tagged_with(tag.id)
       expect(tagged_notes).to include(tagged_note)
       expect(tagged_notes).not_to include(untagged_note)
     end

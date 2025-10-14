@@ -10,12 +10,12 @@ class Note < ApplicationRecord
 
   validates :title, presence: true, length: { maximum: 200 }
 
-  scope :for_user, ->(user) { where(user: user) }
-  scope :in_folder, ->(folder) { where(folder: folder) }
-  scope :without_folder, -> { where(folder: nil) }
+  scope :for_user, ->(user_id) { where(user_id: user_id) }
   scope :recent, -> { order(created_at: :desc) }
   scope :search_by_title, ->(query) { where("title LIKE ?", "%#{query}%") }
-  scope :tagged_with, ->(tag_name) { joins(:tags).where(tags: { name: tag_name }) }
+  scope :in_folder, ->(folder_id) { where(folder_id: folder_id) }
+  scope :without_folder, -> { where(folder_id: nil) }
+  scope :tagged_with, ->(tag_id) { joins(:tags).where(tags: { id: tag_id }) }
 
   def folder_name
     folder&.name || "No folder"

@@ -1,4 +1,6 @@
 class NotesController < ApplicationController
+  before_action :set_folder, only: [:index]
+  before_action :set_tag, only: [:index]
   before_action :set_note, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -56,18 +58,25 @@ class NotesController < ApplicationController
     redirect_to notes_path, alert: "Note not found."
   end
 
+  def set_folder
+    @folder = current_user.folders.find_by(id: params[:folder_id])
+  end
+
+  def set_tag
+    @tag = current_user.tags.find_by(id: params[:tag_id])
+  end
+
   def filter_notes
     if params[:folder_id].present?
-      if params[:folder_id] == 'none'
+      if params[:folder_id] == "none"
         @notes = @notes.without_folder
       else
-        @folder = current_user.folders.find(params[:folder_id])
-        @notes = @notes.where(folder: @folder)
+        @notes = @notes.in_folder(@folder.id)
       end
     end
 
-    if params[:tag].present?
-      @notes = @notes.tagged_with(params[:tag])
+    if params[:tag_id].present?
+      @notes = @notes.tagged_with(@tag.id)
     end
 
   rescue ActiveRecord::RecordNotFound

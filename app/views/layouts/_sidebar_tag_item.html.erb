@@ -1,7 +1,9 @@
 <%= turbo_frame_tag dom_id(tag) do %>
   <div class="flex items-center group relative">
-    <%= link_to notes_path(tag: tag.name),
-        class: "flex items-center flex-1 px-3 py-2 text-sm rounded-md transition-colors min-w-0 #{'bg-primary-100 text-primary-700' if params[:tag] == tag.name} #{'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100' if params[:tag] != tag.name}" do %>
+    <% tag_is_selected = params[:tag_id]&.to_i == tag.id %>
+    <%= link_to notes_path(tag_id: tag.id),
+        data: { turbo_frame: "_top" },
+        class: "flex items-center flex-1 px-3 py-2 text-sm rounded-md transition-colors min-w-0 #{tag_is_selected ? 'bg-primary-100 text-primary-700' : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'}" do %>
       <%= render "shared/svg/tag" %>
       <span class="flex-1 truncate"><%= tag.name %></span>
       <span class="ml-auto text-xs bg-neutral-200 text-neutral-700 px-2 py-0.5 rounded-full flex-shrink-0">
