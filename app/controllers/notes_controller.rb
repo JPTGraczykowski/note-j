@@ -67,20 +67,12 @@ class NotesController < ApplicationController
   end
 
   def filter_notes
-    if params[:folder_id].present?
-      if params[:folder_id] == "none"
-        @notes = @notes.without_folder
-      else
-        @notes = @notes.in_folder(@folder.id)
-      end
-    end
-
-    if params[:tag_id].present?
-      @notes = @notes.tagged_with(@tag.id)
-    end
-
-  rescue ActiveRecord::RecordNotFound
-    redirect_to notes_path, alert: "Filters are not correct."
+    query = Notes::FilterQuery.new(
+      notes: @notes,
+      folder_id: params[:folder_id],
+      tag_id: params[:tag_id]
+    )
+    @notes = query.results
   end
 
   def note_params
