@@ -24,6 +24,8 @@ class FoldersController < ApplicationController
     @folder = current_user.folders.build(folder_params)
 
     if @folder.save
+      @next_sibling_folder = @folder.find_next_sibling
+
       respond_to do |format|
         format.turbo_stream
         format.html { redirect_to @folder, notice: "Folder was successfully created." }

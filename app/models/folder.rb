@@ -37,6 +37,16 @@ class Folder < ApplicationRecord
     root? ? 0 : parent.depth + 1
   end
 
+  def find_next_sibling
+    siblings = if root?
+      user.folders.root_folders
+    else
+      user.folders.where(parent_id: parent_id)
+    end
+
+    siblings.where("name > ?", name).order(:name).first
+  end
+
   private
 
   def cannot_be_parent_of_itself

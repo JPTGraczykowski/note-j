@@ -2,6 +2,13 @@
 
 <%= turbo_stream.remove "no_tags_message" %>
 
-<%= turbo_stream.append "tags_list" do %>
-  <%= render "layouts/sidebar_tag_item", tag: @tag %>
+
+<% if @next_tag %>
+  <%= turbo_stream.before dom_id(@next_tag) do %>
+    <%= render "layouts/sidebar_tag_item", tag: @tag %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.append "tags_list" do %>
+    <%= render "layouts/sidebar_tag_item", tag: @tag %>
+  <% end %>
 <% end %>

@@ -153,5 +153,28 @@ RSpec.describe Folder, type: :model do
       expect(level1.depth).to eq(1)
       expect(level2.depth).to eq(2)
     end
+
+    it "finds next sibling folder" do
+      user = create(:user)
+      parent_folder_a = create(:folder, name: "Parent Folder A", user: user)
+      folder_a = create(:folder, name: "Folder A", user: user, parent: parent_folder_a)
+      folder_b = create(:folder, name: "Folder B", user: user, parent: parent_folder_a)
+      folder_c = create(:folder, name: "Folder C", user: user, parent: parent_folder_a)
+      parent_folder_b = create(:folder, name: "Parent Folder B", user: user)
+
+      expect(folder_a.find_next_sibling).to eq(folder_b)
+      expect(folder_b.find_next_sibling).to eq(folder_c)
+      expect(parent_folder_a.find_next_sibling).to eq(parent_folder_b)
+    end
+
+    it "finds next sibling folder in root folders" do
+      user = create(:user)
+      folder1 = create(:folder, name: "Folder1", user: user)
+      folder2 = create(:folder, name: "Folder2", user: user)
+      folder3 = create(:folder, name: "Folder3", user: user)
+
+      expect(folder1.find_next_sibling).to eq(folder2)
+      expect(folder2.find_next_sibling).to eq(folder3)
+    end
   end
 end

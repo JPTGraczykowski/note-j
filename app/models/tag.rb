@@ -13,4 +13,15 @@ class Tag < ApplicationRecord
   def to_s
     name
   end
+
+  def find_next_popular
+    user
+      .tags
+      .left_joins(:notes)
+      .group("tags.id")
+      .where("tags.id != ?", id)
+      .having("COUNT(notes.id) < ?", notes.count)
+      .order("COUNT(notes.id) DESC")
+      .first
+  end
 end

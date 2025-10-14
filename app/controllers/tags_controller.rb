@@ -19,6 +19,8 @@ class TagsController < ApplicationController
     @tag = current_user.tags.build(tag_params)
 
     if @tag.save
+      @next_tag = @tag.find_next_popular
+
       respond_to do |format|
         format.turbo_stream
         format.html { redirect_to @tag, notice: "Tag was successfully created." }

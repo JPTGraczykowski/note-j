@@ -2,6 +2,19 @@
 
 <%= turbo_stream.remove "no_folders_message" %>
 
-<%= turbo_stream.append "folders_list" do %>
-  <%= render "layouts/sidebar_folder_item", folder: @folder %>
+<% if @next_sibling_folder %>
+  <%= turbo_stream.before dom_id(@next_sibling_folder) do %>
+    <%= render "layouts/sidebar_folder_item", folder: @folder %>
+  <% end %>
+<% else %>
+  <% if @folder.root? %>
+    <%= turbo_stream.append "folders_list" do %>
+      <%= render "layouts/sidebar_folder_item", folder: @folder %>
+    <% end %>
+  <% else %>
+    <%= turbo_stream.append "folder_#{@folder.parent_id}_children" do %>
+      <%= render "layouts/sidebar_folder_item", folder: @folder %>
+    <% end %>
+    <%= turbo_stream.remove_css_class "folder_#{@folder.parent_id}_children", "hidden" %>
+  <% end %>
 <% end %>

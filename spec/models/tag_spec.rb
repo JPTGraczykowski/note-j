@@ -67,5 +67,37 @@ RSpec.describe Tag, type: :model do
 
       expect(tag.to_s).to eq("important")
     end
+
+    it "finds next popular tag" do
+      user = create(:user)
+      tag1 = create(:tag, name: "important", user: user)
+      tag2 = create(:tag, name: "urgent", user: user)
+      tag3 = create(:tag, name: "work", user: user)
+      tag4 = create(:tag, name: "personal", user: user)
+      note11 = create(:note, user: user)
+      NotesTag.create(note: note11, tag: tag1, user: user)
+      note21 = create(:note, user: user)
+      note22 = create(:note, user: user)
+      NotesTag.create(note: note21, tag: tag2, user: user)
+      NotesTag.create(note: note22, tag: tag2, user: user)
+      note31 = create(:note, user: user)
+      note32 = create(:note, user: user)
+      note33 = create(:note, user: user)
+      NotesTag.create(note: note31, tag: tag3, user: user)
+      NotesTag.create(note: note32, tag: tag3, user: user)
+      NotesTag.create(note: note33, tag: tag3, user: user)
+      note41 = create(:note, user: user)
+      note42 = create(:note, user: user)
+      note43 = create(:note, user: user)
+      note44 = create(:note, user: user)
+      NotesTag.create(note: note41, tag: tag4, user: user)
+      NotesTag.create(note: note42, tag: tag4, user: user)
+      NotesTag.create(note: note43, tag: tag4, user: user)
+      NotesTag.create(note: note44, tag: tag4, user: user)
+
+      expect(tag4.find_next_popular).to eq(tag3)
+      expect(tag3.find_next_popular).to eq(tag2)
+      expect(tag2.find_next_popular).to eq(tag1)
+    end
   end
 end

@@ -48,12 +48,12 @@
       </div>
     </div>
 
-    <% if folder.has_children? %>
-      <div data-folder-tree-target="children" class="mt-1">
+    <div data-folder-tree-target="children" class="mt-1 <%= 'hidden' unless folder.has_children? %>" id="folder_<%= folder.id %>_children">
+      <% if folder.has_children? %>
         <% folder.children.order(:name).each do |child_folder| %>
           <%= render 'layouts/sidebar_folder_item', folder: child_folder, depth: depth + 1 %>
         <% end %>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 <% end %>
