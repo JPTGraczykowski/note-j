@@ -7,16 +7,28 @@
 <%# Add the new folder to the list %>
 <% if @next_sibling_folder %>
   <%= turbo_stream.before dom_id(@next_sibling_folder) do %>
-    <%= render "layouts/sidebar_folder_item", folder: @folder %>
+    <%= render "layouts/sidebar_folder_item", folder: @folder, depth: @folder.depth %>
   <% end %>
 <% else %>
   <% if @folder.root? %>
     <%= turbo_stream.append "folders_list" do %>
-      <%= render "layouts/sidebar_folder_item", folder: @folder %>
+      <%= render "layouts/sidebar_folder_item", folder: @folder, depth: 0 %>
     <% end %>
   <% else %>
     <%= turbo_stream.append "folder_#{@folder.parent_id}_children" do %>
-      <%= render "layouts/sidebar_folder_item", folder: @folder %>
+      <%= render "layouts/sidebar_folder_item", folder: @folder, depth: @folder.depth %>
     <% end %>
   <% end %>
+<% end %>
+
+<%# Dispatch custom event to expand parent folders and show the new folder %>
+<%= turbo_stream.append "folders_list" do %>
+  <script>
+    document.dispatchEvent(new CustomEvent('folder:created', {
+      detail: {
+        folderId: '<%= @folder.id %>',
+        parentIds: <%= @folder.ancestors.map(&:id).to_json.html_safe %>
+      }
+    }));
+  </script>
 <% end %>

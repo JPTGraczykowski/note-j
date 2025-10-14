@@ -7,6 +7,15 @@ export default class extends Controller {
   connect() {
     // Initialize collapsed state from localStorage
     this.loadCollapsedState()
+
+    // Listen for folder creation events
+    this.boundHandleFolderCreated = this.handleFolderCreated.bind(this)
+    document.addEventListener('folder:created', this.boundHandleFolderCreated)
+  }
+
+  disconnect() {
+    // Clean up event listener
+    document.removeEventListener('folder:created', this.boundHandleFolderCreated)
   }
 
   toggle(event) {
@@ -74,5 +83,37 @@ export default class extends Controller {
       delete state[folderId]
     }
     localStorage.setItem("folderTreeCollapsedState", JSON.stringify(state))
+  }
+
+  handleFolderCreated(event) {
+    const { parentIds } = event.detail
+
+    // Expand all parent folders to show the newly created folder
+    parentIds.forEach(parentId => {
+      this.expandFolder(parentId)
+    })
+  }
+
+  expandFolder(folderId) {
+    // Find the folder element
+    const folderElement = this.folderTargets.find(folder =>
+      folder.dataset.folderId === String(folderId)
+    )
+
+    if (!folderElement) return
+
+    // Find the children container and toggle button
+    const childrenElement = folderElement.querySelector("[data-folder-tree-target='children']")
+    const toggleButton = folderElement.querySelector("[data-folder-tree-target='toggle']")
+    const toggleIcon = toggleButton?.querySelector("svg")
+
+    if (childrenElement && childrenElement.classList.contains("hidden")) {
+      // Expand the folder
+      childrenElement.classList.remove("hidden")
+      if (toggleIcon) {
+        this.rotateIcon(toggleIcon, true)
+      }
+      this.saveCollapsedState(folderId, false)
+    }
   }
 }
