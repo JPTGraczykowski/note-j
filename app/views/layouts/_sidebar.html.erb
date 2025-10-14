@@ -6,7 +6,7 @@
       <nav class="space-y-1">
         <!-- All Notes -->
         <%= link_to notes_path,
-            class: "flex items-center px-3 py-2 text-sm rounded-md transition-colors #{'bg-primary-100 text-primary-700' if current_page?(notes_path) && !params[:folder_id].present? && !params[:tag].present?} #{'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100' unless current_page?(notes_path) && !params[:folder_id].present? && !params[:tag].present?}" do %>
+            class: "flex items-center px-3 py-2 text-sm rounded-md transition-colors #{current_page?(notes_path) && !params[:folder_id].present? && !params[:tag].present? ? 'bg-primary-100 text-primary-700' : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'}" do %>
           <%= render "shared/svg/note" %>
           All Notes
           <span class="ml-auto text-xs bg-neutral-200 text-neutral-700 px-2 py-0.5 rounded-full">
@@ -41,14 +41,26 @@
 
     <!-- Tags -->
     <div class="mb-6">
-      <h3 class="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-3">Tags</h3>
-      <div class="space-y-1">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-xs font-semibold text-neutral-500 uppercase tracking-wide">Tags</h3>
+        <%= button_to new_tag_path,
+            method: :get,
+            data: { turbo_frame: dom_id(Tag.new) },
+            class: "text-neutral-400 hover:text-primary-600 transition-colors",
+            title: "Add new tag" do %>
+          <%= render "shared/svg/plus" %>
+        <% end %>
+      </div>
+
+      <%= turbo_frame_tag dom_id(Tag.new) %>
+
+      <div class="space-y-1" id="tags_list">
         <% if current_user.tags.any? %>
           <% current_user.tags.popular.limit(6).each do |tag| %>
             <%= render "layouts/sidebar_tag_item", tag: tag %>
           <% end %>
         <% else %>
-          <p class="text-sm text-neutral-500 px-3 py-2">No tags yet</p>
+          <p class="text-sm text-neutral-500 px-3 py-2" id="no_tags_message">No tags yet</p>
         <% end %>
       </div>
     </div>

@@ -12,15 +12,31 @@ export default class extends Controller {
     }
   }
 
-  cancel(event) {
+  cancelByEscape(event) {
     // Handle escape key to cancel editing
     if (event && event.key === "Escape") {
       event.preventDefault()
-      // Find the cancel link and click it
-      const cancelLink = this.element.querySelector("a[href*='tags']")
-      if (cancelLink) {
-        cancelLink.click()
+      // Check if this is the new tag form
+      const turboFrame = this.element.closest("#new_tag")
+      if (turboFrame) {
+        // Clear the new tag form
+        turboFrame.innerHTML = ""
+      } else {
+        // Find the cancel link and click it (for edit form)
+        const cancelLink = this.element.querySelector("a[href*='tags']")
+        if (cancelLink) {
+          cancelLink.click()
+        }
       }
+    }
+  }
+
+  cancelNew(event) {
+    // Clear the new tag form by clearing the turbo frame
+    event.preventDefault()
+    const turboFrame = document.getElementById("new_tag")
+    if (turboFrame) {
+      turboFrame.innerHTML = ""
     }
   }
 }

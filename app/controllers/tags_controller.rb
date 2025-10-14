@@ -19,9 +19,15 @@ class TagsController < ApplicationController
     @tag = current_user.tags.build(tag_params)
 
     if @tag.save
-      redirect_to @tag, notice: "Tag was successfully created."
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to @tag, notice: "Tag was successfully created." }
+      end
     else
-      render :new, status: :unprocessable_entity
+      respond_to do |format|
+        format.turbo_stream { render :new, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_entity }
+      end
     end
   end
 
