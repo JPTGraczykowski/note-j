@@ -28,7 +28,7 @@ class TagsController < ApplicationController
   def update
     if @tag.update(tag_params)
       respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("tag_#{@tag.id}", partial: "layouts/sidebar_tag_item", locals: { tag: @tag }) }
+        format.turbo_stream
         format.html { redirect_to @tag, notice: "Tag was successfully updated." }
       end
     else
@@ -43,7 +43,7 @@ class TagsController < ApplicationController
     @tag.destroy
 
     respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.remove("tag_#{@tag.id}") }
+      format.turbo_stream
       format.html { redirect_to tags_url, notice: "Tag was successfully deleted." }
     end
   end
