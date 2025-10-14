@@ -52,7 +52,11 @@ class FoldersController < ApplicationController
 
   def destroy
     @folder.destroy
-    redirect_to folders_url, notice: "Folder was successfully deleted."
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to folders_url, notice: "Folder was successfully deleted." }
+    end
   end
 
   private
