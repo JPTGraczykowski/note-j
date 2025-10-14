@@ -1,0 +1,35 @@
+<div id="<%= modal_id %>"
+     class="fixed inset-0 z-50 flex items-center justify-center"
+     data-controller="modal"
+     data-action="keydown.esc@window->modal#closeOnEscape">
+
+  <!-- Backdrop -->
+  <div class="fixed inset-0 bg-black opacity-30"
+       data-action="click->modal#close"
+       data-modal-target="backdrop"></div>
+
+  <!-- Modal Container -->
+  <div class="relative bg-white rounded-lg shadow-2xl max-w-md w-full mx-4 z-10 border border-neutral-200"
+       data-modal-target="container"
+       data-action="click->modal#stopPropagation">
+
+    <!-- Modal Header -->
+    <div class="flex items-center justify-between px-6 py-4 border-b border-neutral-200">
+      <h3 class="text-lg font-semibold text-neutral-900">
+        <%= title %>
+      </h3>
+      <button type="button"
+              data-action="click->modal#close"
+              class="text-neutral-400 hover:text-neutral-600 transition-colors hover:cursor-pointer">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="px-6 py-4">
+      <%= yield %>
+    </div>
+  </div>
+</div>

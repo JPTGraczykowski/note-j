@@ -1,8 +1,10 @@
-<%= turbo_stream.update dom_id(Tag.new), "" %>
+<%# Close the modal %>
+<%= turbo_stream.update "modal", "" %>
 
+<%# Remove the "no tags" message if it exists %>
 <%= turbo_stream.remove "no_tags_message" %>
 
-
+<%# Add the new tag to the list %>
 <% if @next_tag %>
   <%= turbo_stream.before dom_id(@next_tag) do %>
     <%= render "layouts/sidebar_tag_item", tag: @tag %>

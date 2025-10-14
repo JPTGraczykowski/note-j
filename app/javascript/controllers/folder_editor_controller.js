@@ -12,8 +12,23 @@ export default class extends Controller {
     }
   }
 
+  cancelModal(event) {
+    // Handle escape key to close modal
+    if (event && event.key === "Escape") {
+      event.preventDefault()
+      // Find the modal controller and close it
+      const modalElement = this.element.closest('[data-controller="modal"]')
+      if (modalElement) {
+        const modalController = this.application.getControllerForElementAndIdentifier(modalElement, "modal")
+        if (modalController) {
+          modalController.close()
+        }
+      }
+    }
+  }
+
   cancelByEscape(event) {
-    // Handle escape key to cancel editing
+    // Handle escape key to cancel editing (for inline edit forms)
     if (event && event.key === "Escape") {
       event.preventDefault()
       // Check if this is the new folder form

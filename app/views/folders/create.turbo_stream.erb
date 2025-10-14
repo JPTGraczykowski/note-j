@@ -1,7 +1,10 @@
-<%= turbo_stream.update dom_id(Folder.new), "" %>
+<%# Close the modal %>
+<%= turbo_stream.update "modal", "" %>
 
+<%# Remove the "no folders" message if it exists %>
 <%= turbo_stream.remove "no_folders_message" %>
 
+<%# Add the new folder to the list %>
 <% if @next_sibling_folder %>
   <%= turbo_stream.before dom_id(@next_sibling_folder) do %>
     <%= render "layouts/sidebar_folder_item", folder: @folder %>
@@ -15,6 +18,5 @@
     <%= turbo_stream.append "folder_#{@folder.parent_id}_children" do %>
       <%= render "layouts/sidebar_folder_item", folder: @folder %>
     <% end %>
-    <%= turbo_stream.remove_css_class "folder_#{@folder.parent_id}_children", "hidden" %>
   <% end %>
 <% end %>

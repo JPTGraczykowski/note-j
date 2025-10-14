@@ -1,23 +1,33 @@
-<%= turbo_frame_tag dom_id(Folder.new) do %>
-  <div class="mb-2 px-3 py-2 bg-neutral-100 rounded-md" data-controller="folder-editor">
-    <%= form_with model: @folder, class: "flex flex-col gap-2" do |f| %>
-      <div class="flex-1">
-        <%= f.text_field :name,
-            placeholder: "Enter folder name...",
-            class: "w-full px-2 py-1 text-sm border border-neutral-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent",
-            data: { folder_editor_target: "input", action: "keydown.esc->folder-editor#cancelByEscape" },
-            autofocus: true %>
-      </div>
+<%= turbo_frame_tag "modal" do %>
+  <%= render "shared/modal", modal_id: "new_folder_modal", title: "Create New Folder" do %>
+    <div data-controller="folder-editor">
+      <%= form_with model: @folder, class: "flex flex-col gap-4" do |f| %>
+        <div>
+          <%= f.label :name, "Folder Name", class: "block text-sm font-medium text-neutral-700 mb-2" %>
+          <%= f.text_field :name,
+              placeholder: "Enter folder name...",
+              class: "w-full px-3 py-2 text-sm border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent",
+              data: { folder_editor_target: "input", action: "keydown.esc->folder-editor#cancelModal" },
+              autofocus: true %>
+        </div>
+        <div>
+          <%= f.label :parent_id, "Parent Folder", class: "block text-sm font-medium text-neutral-700 mb-2" %>
+          <%= f.select :parent_id,
+              options_from_collection_for_select(current_user.folders.order(:name), :id, :name, @folder.parent_id),
+              { prompt: "No parent" },
+              { class: "w-full px-3 py-2 text-sm border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" } %>
+        </div>
 
-      <div class="flex items-center gap-2 justify-end">
-        <%= f.submit "Create",
-            class: "px-3 py-1 text-xs bg-primary-600 text-white rounded hover:bg-primary-700 transition-colors" %>
-        <button type="button"
-                data-action="click->folder-editor#cancelNew"
-                class="px-3 py-1 text-xs text-neutral-600 hover:text-neutral-900 transition-colors">
-          Cancel
-        </button>
-      </div>
-    <% end %>
-  </div>
+        <div class="flex items-center gap-2 justify-end">
+          <button type="button"
+                  data-action="click->modal#close"
+                  class="px-4 py-2 text-sm text-neutral-600 hover:text-neutral-900 transition-colors hover:cursor-pointer">
+            Cancel
+          </button>
+          <%= f.submit "Create Folder",
+              class: "px-4 py-2 text-sm bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors hover:cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>
