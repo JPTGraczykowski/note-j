@@ -38,10 +38,15 @@ class FoldersController < ApplicationController
 
   def update
     if @folder.update(folder_params)
-      redirect_to @folder, notice: "Folder was successfully updated."
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to @folder, notice: "Folder was successfully updated." }
+      end
     else
-      @available_parents = current_user.folders.where.not(id: @folder.id).order(:name)
-      render :edit, status: :unprocessable_entity
+      respond_to do |format|
+        format.turbo_stream { render :edit, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_entity }
+      end
     end
   end
 
