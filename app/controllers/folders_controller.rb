@@ -24,10 +24,15 @@ class FoldersController < ApplicationController
     @folder = current_user.folders.build(folder_params)
 
     if @folder.save
-      redirect_to @folder, notice: "Folder was successfully created."
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to @folder, notice: "Folder was successfully created." }
+      end
     else
-      @available_parents = current_user.folders.order(:name)
-      render :new, status: :unprocessable_entity
+      respond_to do |format|
+        format.turbo_stream { render :new, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_entity }
+      end
     end
   end
 

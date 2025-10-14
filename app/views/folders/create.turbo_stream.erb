@@ -1,0 +1,7 @@
+<%= turbo_stream.update dom_id(Folder.new), "" %>
+
+<%= turbo_stream.remove "no_folders_message" %>
+
+<%= turbo_stream.append "folders_list" do %>
+  <%= render "layouts/sidebar_folder_item", folder: @folder %>
+<% end %>
