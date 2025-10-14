@@ -1,5 +1,7 @@
-<%# Close the modal %>
-<%= turbo_stream.update "modal", "" %>
+<%# Close the modal and reset the turbo frame %>
+<%= turbo_stream.replace "modal" do %>
+  <%= turbo_frame_tag "modal" %>
+<% end %>
 
 <%# Remove the "no tags" message if it exists %>
 <%= turbo_stream.remove "no_tags_message" %>

@@ -1,0 +1,7 @@
+<%= turbo_stream.replace "modal" do %>
+  <%= turbo_frame_tag "modal" do %>
+    <%= render "shared/modal", modal_id: "new_folder_modal", title: "Create New Folder" do %>
+      <%= render "form" %>
+    <% end %>
+  <% end %>
+<% end %>
