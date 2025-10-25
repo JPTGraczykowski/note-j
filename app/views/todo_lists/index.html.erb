@@ -1,0 +1,40 @@
+<% content_for :title, "Todos" %>
+
+<div class="max-w-7xl mx-auto px-6 py-8">
+  <!-- Header -->
+  <div class="mb-6">
+    <div class="flex items-center justify-between mb-4">
+      <!-- Title -->
+      <div>
+        <%= render "shared/page_title", page_title: "Todos" %>
+      </div>
+
+      <!-- New Todo Button -->
+      <div class="flex items-center space-x-3">
+        <%= link_to new_todo_list_path, class: "inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-700 rounded-md hover:bg-primary-800 transition-colors" do %>
+          <%= render "shared/svg/plus" %>
+          New Todo
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <% if @todo_lists.any? %>
+    <!-- Todos Grid -->
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <% @todo_lists.each do |todo_list| %>
+        <%= render 'todo_list_card', todo_list: todo_list %>
+      <% end %>
+    </div>
+  <% else %>
+    <!-- Empty State -->
+    <div class="text-center py-12">
+      <h3 class="text-lg font-medium text-neutral-900 mb-2">No todos found</h3>
+      <p class="text-neutral-600 mb-4">Create your first todo to get started.</p>
+      <%= link_to new_todo_list_path, class: "inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-700 rounded-md hover:bg-primary-800 transition-colors" do %>
+        <%= render "shared/svg/plus" %>
+        Create Todo
+      <% end %>
+    </div>
+  <% end %>
+</div>

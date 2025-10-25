@@ -15,13 +15,14 @@
         <% end %>
 
         <!-- Todos -->
-        <a href="#" class="flex items-center px-3 py-2 text-sm rounded-md transition-colors text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100">
+        <%= link_to todo_lists_path,
+            class: "flex items-center px-3 py-2 text-sm rounded-md transition-colors #{current_page?(todo_lists_path) ? 'bg-primary-100 text-primary-700' : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'}" do %>
           <%= render "shared/svg/todo" %>
           Todos
           <span class="ml-auto text-xs bg-neutral-200 text-neutral-700 px-2 py-0.5 rounded-full">
-            <%= current_user.todos_count %>
+            <%= current_user.todo_lists_count %>
           </span>
-        </a>
+        <% end %>
       </nav>
     </div>
 
