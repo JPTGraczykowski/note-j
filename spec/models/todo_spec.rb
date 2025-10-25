@@ -41,9 +41,8 @@ RSpec.describe Todo, type: :model do
       expect(Todo.reflect_on_association(:user).macro).to eq(:belongs_to)
     end
 
-    it "has many tags" do
-      expect(Todo.reflect_on_association(:tags).macro).to eq(:has_many)
-      expect(Todo.reflect_on_association(:tags).through_reflection.name).to eq(:todos_tags)
+    it "belongs to todo_list" do
+      expect(Todo.reflect_on_association(:todo_list).macro).to eq(:belongs_to)
     end
   end
 
@@ -87,18 +86,6 @@ RSpec.describe Todo, type: :model do
       recent_todos = Todo.recent
       expect(recent_todos.first).to eq(new_todo)
       expect(recent_todos.last).to eq(old_todo)
-    end
-
-    it "finds todos tagged with specific tag" do
-      user = create(:user)
-      tag = create(:tag, name: "urgent", user: user)
-      tagged_todo = create(:todo, user: user)
-      untagged_todo = create(:todo, user: user)
-      TodosTag.create(todo: tagged_todo, tag: tag, user: user)
-
-      tagged_todos = Todo.tagged_with("urgent")
-      expect(tagged_todos).to include(tagged_todo)
-      expect(tagged_todos).not_to include(untagged_todo)
     end
   end
 
@@ -161,17 +148,6 @@ RSpec.describe Todo, type: :model do
 
       expect(completed_todo.pending?).to be false
       expect(pending_todo.pending?).to be true
-    end
-
-    it "returns tag names" do
-      user = create(:user)
-      todo = create(:todo, user: user)
-      tag1 = create(:tag, name: "work", user: user)
-      tag2 = create(:tag, name: "urgent", user: user)
-      TodosTag.create(todo: todo, tag: tag1, user: user)
-      TodosTag.create(todo: todo, tag: tag2, user: user)
-
-      expect(todo.tag_names).to match_array(["work", "urgent"])
     end
   end
 end

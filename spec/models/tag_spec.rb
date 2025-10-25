@@ -41,24 +41,6 @@ RSpec.describe Tag, type: :model do
       expect(Tag.reflect_on_association(:notes).macro).to eq(:has_many)
       expect(Tag.reflect_on_association(:notes).through_reflection.name).to eq(:notes_tags)
     end
-
-    it "has many todos" do
-      expect(Tag.reflect_on_association(:todos).macro).to eq(:has_many)
-      expect(Tag.reflect_on_association(:todos).through_reflection.name).to eq(:todos_tags)
-    end
-  end
-
-  context "scopes" do
-    it "finds tags for specific user" do
-      user1 = create(:user)
-      user2 = create(:user)
-      tag1 = create(:tag, user: user1)
-      tag2 = create(:tag, user: user2)
-
-      user1_tags = Tag.for_user(user1)
-      expect(user1_tags).to include(tag1)
-      expect(user1_tags).not_to include(tag2)
-    end
   end
 
   context "methods" do

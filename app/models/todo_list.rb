@@ -1,8 +1,9 @@
-class Todo < ApplicationRecord
+class TodoList < ApplicationRecord
   belongs_to :user, counter_cache: true
-  belongs_to :todo_list
 
-  validates :description, presence: true, length: { maximum: 1000 }
+  has_many :todos, dependent: :destroy
+
+  validates :title, presence: true, length: { maximum: 500 }
 
   scope :for_user, ->(user) { where(user: user) }
   scope :completed, -> { where(completed: true) }
@@ -31,5 +32,22 @@ class Todo < ApplicationRecord
 
   def pending?
     !completed
+  end
+
+  def progress_percentage
+    return 0 if todos.none?
+    (todos.completed.count.to_f / todos.count * 100).round
+  end
+
+  def all_todos_completed?
+    todos.any? && todos.all?(&:completed?)
+  end
+
+  def pending_todos_count
+    todos.pending.count
+  end
+
+  def completed_todos_count
+    todos.completed.count
   end
 end
