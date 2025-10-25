@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_25_111524) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_25_135710) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -92,28 +92,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_25_111524) do
     t.index ["user_id"], name: "index_tags_on_user_id"
   end
 
+  create_table "todo_lists", force: :cascade do |t|
+    t.string "title", null: false
+    t.boolean "completed", default: false, null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "completed"], name: "index_todo_lists_on_user_id_and_completed"
+    t.index ["user_id", "created_at"], name: "index_todo_lists_on_user_id_and_created_at"
+    t.index ["user_id"], name: "index_todo_lists_on_user_id"
+  end
+
   create_table "todos", force: :cascade do |t|
     t.text "description", null: false
     t.boolean "completed", default: false, null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "todo_list_id", null: false
+    t.index ["todo_list_id", "completed"], name: "index_todos_on_todo_list_id_and_completed"
+    t.index ["todo_list_id"], name: "index_todos_on_todo_list_id"
     t.index ["user_id", "completed"], name: "index_todos_on_user_id_and_completed"
     t.index ["user_id", "created_at"], name: "index_todos_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_todos_on_user_id"
-  end
-
-  create_table "todos_tags", force: :cascade do |t|
-    t.integer "todo_id", null: false
-    t.integer "tag_id", null: false
-    t.integer "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["tag_id", "todo_id"], name: "index_todos_tags_on_tag_id_and_todo_id"
-    t.index ["tag_id"], name: "index_todos_tags_on_tag_id"
-    t.index ["todo_id", "tag_id"], name: "index_todos_tags_on_todo_id_and_tag_id", unique: true
-    t.index ["todo_id"], name: "index_todos_tags_on_todo_id"
-    t.index ["user_id"], name: "index_todos_tags_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -126,6 +127,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_25_111524) do
     t.datetime "updated_at", null: false
     t.integer "notes_count", default: 0, null: false
     t.integer "todos_count", default: 0, null: false
+    t.integer "todo_lists_count", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["name"], name: "index_users_on_name", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
@@ -141,8 +143,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_25_111524) do
   add_foreign_key "notes_tags", "tags"
   add_foreign_key "notes_tags", "users"
   add_foreign_key "tags", "users"
+  add_foreign_key "todo_lists", "users"
+  add_foreign_key "todos", "todo_lists"
   add_foreign_key "todos", "users"
-  add_foreign_key "todos_tags", "tags"
-  add_foreign_key "todos_tags", "todos"
-  add_foreign_key "todos_tags", "users"
 end
