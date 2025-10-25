@@ -26,6 +26,21 @@ Rails.application.routes.draw do
   # Tag management
   resources :tags
 
+  # Todo list management
+  resources :todo_lists do
+    member do
+      post :toggle
+    end
+    resources :todos, only: [:create]
+  end
+
+  # Todo management
+  resources :todos, only: [:edit, :update, :destroy] do
+    member do
+      post :toggle
+    end
+  end
+
   # Defines the root path route ("/")
   root "notes#index"
 end
