@@ -52,7 +52,7 @@
         <div class="flex flex-wrap gap-2">
           <% @note.tags.each do |tag| %>
             <%= link_to notes_path(tag: tag.name),
-                class: "inline-flex items-center px-3 py-1 text-xs font-medium bg-primary-100 text-primary-800 rounded-full hover:bg-primary-200 transition-colors" do %>
+                class: "inline-flex items-center px-3 py-1 text-xs font-medium bg-primary-200 text-primary-800 rounded-full hover:bg-primary-300 transition-colors" do %>
               <%= render "shared/svg/tag" %>
               <%= tag.name %>
             <% end %>
