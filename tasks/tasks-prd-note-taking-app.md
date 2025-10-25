@@ -119,15 +119,14 @@ Based on PRD: `prd-note-taking-app.md`
   - [x] 4.6 Add note deletion with confirmation
   - [x] 4.7 Create Stimulus controller for markdown preview
 
-- [ ] 5.0 Implement Organization System (Folders and Tags)
+- [x] 5.0 Implement Organization System (Folders and Tags)
   - [x] 5.1 Create folders controller for CRUD operations
   - [x] 5.2 Build hierarchical folder tree interface
   - [x] 5.3 Implement folder-based note filtering
   - [x] 5.4 Create tags controller for tag management
-  - [ ] 5.5 Build tag assignment interface for notes and todos
-  - [ ] 5.6 Implement tag-based filtering for notes and todos
-  - [ ] 5.7 Create Stimulus controller for folder tree navigation
-  - [ ] 5.8 Add drag-and-drop for moving notes between folders
+  - [x] 5.5 Build tag assignment interface for notes and todos
+  - [x] 5.6 Implement tag-based filtering for notes and todos
+  - [x] 5.7 Create Stimulus controller for folder tree navigation
 
 - [ ] 6.0 Build Todo Management System
   - [ ] 6.1 Create todos controller with CRUD operations
@@ -147,14 +146,14 @@ Based on PRD: `prd-note-taking-app.md`
   - [ ] 7.6 Create Stimulus controller for live search
   - [ ] 7.7 Add search filters and sorting options
 
-- [ ] 8.0 Implement Image Upload and Display
-  - [ ] 8.1 Configure Active Storage for image handling
-  - [ ] 8.2 Create image upload interface in note editor
-  - [ ] 8.3 Implement image validation (type, size limits)
-  - [ ] 8.4 Add image preview functionality
-  - [ ] 8.5 Integrate images with markdown rendering
-  - [ ] 8.6 Create Stimulus controller for image uploads
-  - [ ] 8.7 Add image deletion and replacement features
+- [x] 8.0 Implement Image Upload and Display
+  - [x] 8.1 Configure Active Storage for image handling
+  - [x] 8.2 Create image upload interface in note editor
+  - [x] 8.3 Implement image validation (type, size limits)
+  - [x] 8.4 Add image preview functionality
+  - [x] 8.5 Integrate images with markdown rendering
+  - [x] 8.6 Create Stimulus controller for image uploads
+  - [x] 8.7 Add image deletion and replacement features
 
 - [ ] 9.0 Build Responsive UI and Mobile Optimization
   - [ ] 9.1 Implement responsive grid layouts for all pages
