@@ -1,9 +1,11 @@
 <% depth ||= 0 %>
+<% all_folders ||= @all_folders %>
 
 <%= turbo_frame_tag dom_id(folder) do %>
   <div data-folder-tree-target="folder" data-folder-id="<%= folder.id %>">
+    <% children = children_for_folder(folder, all_folders) %>
     <div class="flex items-center group relative" style="padding-left: <%= depth * 12 %>px;">
-      <% if folder.has_children? %>
+      <% if children.any? %>
         <button
           type="button"
           data-folder-tree-target="toggle"
@@ -47,11 +49,9 @@
       </div>
     </div>
 
-    <div data-folder-tree-target="children" class="mt-1 <%= 'hidden' unless folder.has_children? %>" id="folder_<%= folder.id %>_children">
-      <% if folder.has_children? %>
-        <% folder.children.order(:name).each do |child_folder| %>
-          <%= render 'layouts/sidebar_folder_item', folder: child_folder, depth: depth + 1 %>
-        <% end %>
+    <div data-folder-tree-target="children" class="mt-1 <%= 'hidden' unless children.any? %>" id="folder_<%= folder.id %>_children">
+      <% children.each do |child_folder| %>
+        <%= render 'layouts/sidebar_folder_item', folder: child_folder, depth: depth + 1, all_folders: all_folders %>
       <% end %>
     </div>
   </div>

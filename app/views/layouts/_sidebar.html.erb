@@ -39,9 +39,9 @@
       </div>
 
       <div class="space-y-1 overflow-x-auto -mx-6 px-6" data-controller="folder-tree" id="folders_list">
-        <% if current_user.folders.any? %>
-          <% current_user.folders.root_folders.order(:name).each do |folder| %>
-            <%= render 'layouts/sidebar_folder_item', folder: folder %>
+        <% if @all_folders.any? %>
+          <% root_folders(@all_folders).each do |folder| %>
+            <%= render 'layouts/sidebar_folder_item', folder: folder, all_folders: @all_folders %>
           <% end %>
         <% else %>
           <p class="text-sm text-neutral-500 px-3 py-2" id="no_folders_message">No folders yet</p>
