@@ -30,13 +30,15 @@ Based on PRD: `prd-note-taking-app.md`
 - `app/models/note.rb` - Note model with markdown content and associations
 - `app/models/folder.rb` - Folder model with hierarchical structure
 - `app/models/tag.rb` - Tag model for note categorization
-- `app/models/todo.rb` - Todo model for task management
+- `app/models/todo_list.rb` - TodoList model for organizing todos into lists
+- `app/models/todo.rb` - Todo model for individual tasks within todo lists
 - `app/controllers/application_controller.rb` - Base authentication and security
 - `app/controllers/sessions_controller.rb` - OAuth login/logout handling
 - `app/controllers/notes_controller.rb` - CRUD operations for notes
 - `app/controllers/folders_controller.rb` - Folder management operations
 - `app/controllers/tags_controller.rb` - Tag management operations
-- `app/controllers/todos_controller.rb` - Todo CRUD operations
+- `app/controllers/todo_lists_controller.rb` - TodoList management operations
+- `app/controllers/todos_controller.rb` - Todo CRUD operations within todo lists
 - `app/controllers/search_controller.rb` - Search functionality across notes
 - `app/views/layouts/application.html.erb` - Main layout with navigation and responsive design
 - `app/views/notes/index.html.erb` - Notes listing page with filtering and note cards
@@ -48,27 +50,32 @@ Based on PRD: `prd-note-taking-app.md`
 - `app/views/notes/edit.html.erb` - Note editing form
 - `app/views/notes/_form.html.erb` - Shared note form partial
 - `app/views/folders/index.html.erb` - Folder management interface
-- `app/views/todos/index.html.erb` - Todo list interface
+- `app/views/todo_lists/index.html.erb` - TodoList management interface
+- `app/views/todo_lists/show.html.erb` - Individual todo list with todos display
+- `app/views/todos/_todo_item.html.erb` - Individual todo item component
 - `app/views/search/index.html.erb` - Search results page
 - `app/javascript/controllers/markdown_editor_controller.js` - Stimulus controller for markdown editing
 - `app/javascript/controllers/image_upload_controller.js` - Stimulus controller for image uploads
 - `app/javascript/controllers/folder_tree_controller.js` - Stimulus controller for folder navigation
+- `app/javascript/controllers/todo_controller.js` - Stimulus controller for todo interactions
 - `app/javascript/controllers/search_controller.js` - Stimulus controller for search functionality
 - `app/assets/stylesheets/application.tailwind.css` - Tailwind CSS configuration and custom styles
 - `db/migrate/001_create_users.rb` - User table migration
 - `db/migrate/002_create_folders.rb` - Folders table migration with hierarchy
 - `db/migrate/003_create_tags.rb` - Tags table migration
 - `db/migrate/004_create_notes.rb` - Notes table migration with associations
-- `db/migrate/005_create_todos.rb` - Todos table migration
-- `db/migrate/006_create_note_tags.rb` - Many-to-many relationship for note tags
-- `db/migrate/007_create_todo_tags.rb` - Many-to-many relationship for todo tags
+- `db/migrate/005_create_todo_lists.rb` - TodoLists table migration
+- `db/migrate/006_create_todos.rb` - Todos table migration with todo_list association
+- `db/migrate/007_create_note_tags.rb` - Many-to-many relationship for note tags
 - `spec/models/user_spec.rb` - User model tests
 - `spec/models/note_spec.rb` - Note model tests
 - `spec/models/folder_spec.rb` - Folder model tests
 - `spec/models/tag_spec.rb` - Tag model tests
+- `spec/models/todo_list_spec.rb` - TodoList model tests
 - `spec/models/todo_spec.rb` - Todo model tests
 - `spec/controllers/notes_controller_spec.rb` - Notes controller tests
 - `spec/controllers/folders_controller_spec.rb` - Folders controller tests
+- `spec/controllers/todo_lists_controller_spec.rb` - TodoLists controller tests
 - `spec/controllers/todos_controller_spec.rb` - Todos controller tests
 - `spec/system/authentication_spec.rb` - OAuth authentication system tests
 - `spec/system/note_management_spec.rb` - Note CRUD system tests
@@ -98,9 +105,9 @@ Based on PRD: `prd-note-taking-app.md`
   - [x] 2.2 Generate Folder model with hierarchical structure (name, parent_id, user_id)
   - [x] 2.3 Generate Tag model (name, user_id)
   - [x] 2.4 Generate Note model (title, content, folder_id, user_id)
-  - [x] 2.5 Generate Todo model (description, completed, user_id)
-  - [x] 2.6 Create join table for note-tag many-to-many relationship
-  - [x] 2.7 Create join table for todo-tag many-to-many relationship
+  - [x] 2.5 Generate TodoList model (title, completed, user_id)
+  - [x] 2.6 Generate Todo model (description, completed, user_id, todo_list_id)
+  - [x] 2.7 Create join table for note-tag many-to-many relationship
   - [x] 2.8 Add model associations and validations
 
 - [x] 3.0 Setup Styling with Tailwind CSS
@@ -124,23 +131,28 @@ Based on PRD: `prd-note-taking-app.md`
   - [x] 5.2 Build hierarchical folder tree interface
   - [x] 5.3 Implement folder-based note filtering
   - [x] 5.4 Create tags controller for tag management
-  - [x] 5.5 Build tag assignment interface for notes and todos
-  - [x] 5.6 Implement tag-based filtering for notes and todos
+  - [x] 5.5 Build tag assignment interface for notes
+  - [x] 5.6 Implement tag-based filtering for notes
   - [x] 5.7 Create Stimulus controller for folder tree navigation
 
 - [ ] 6.0 Build Todo Management System
-  - [ ] 6.1 Create todos controller with CRUD operations
-  - [ ] 6.2 Build todo list interface with checkboxes
-  - [ ] 6.3 Implement todo creation and editing
-  - [ ] 6.4 Add toggle functionality for completion status
-  - [ ] 6.5 Style completed todos with strikethrough
-  - [ ] 6.6 Add todo deletion functionality
-  - [ ] 6.7 Create Stimulus controller for todo interactions
+  - [ ] 6.1 Create todo_lists controller with CRUD operations
+  - [ ] 6.2 Build todo lists index page showing all user's todo lists
+  - [ ] 6.3 Create individual todo list show page with todos
+  - [ ] 6.4 Implement todo list creation and editing
+  - [ ] 6.5 Add toggle functionality for todo list completion status
+  - [ ] 6.6 Create todos controller for CRUD operations within todo lists
+  - [ ] 6.7 Build todo item interface with checkboxes within todo lists
+  - [ ] 6.8 Implement todo creation and editing within a list
+  - [ ] 6.9 Add toggle functionality for individual todo completion status
+  - [ ] 6.10 Style completed todos with strikethrough
+  - [ ] 6.11 Add todo deletion functionality
+  - [ ] 6.12 Create Stimulus controller for todo interactions
 
 - [ ] 7.0 Add Search and Navigation Features
   - [ ] 7.1 Create search controller for handling queries
   - [ ] 7.2 Implement text-based search across note content
-  - [ ] 7.3 Add tag-based filtering functionality for notes and todos
+  - [ ] 7.3 Add tag-based filtering functionality for notes
   - [ ] 7.4 Build search results display page
   - [ ] 7.5 Implement search highlighting in results
   - [ ] 7.6 Create Stimulus controller for live search
