@@ -225,5 +225,64 @@ RSpec.describe Folder, type: :model do
       expect(folder1.notes_count).to eq(0)
       expect(folder2.notes_count).to eq(1)
     end
+
+    it "increments children_count when child folder is added" do
+      user = create(:user)
+      parent = create(:folder, name: "Parent", user: user)
+      expect(parent.children_count).to eq(0)
+
+      create(:folder, name: "Child 1", parent: parent, user: user)
+      parent.reload
+      expect(parent.children_count).to eq(1)
+
+      create(:folder, name: "Child 2", parent: parent, user: user)
+      parent.reload
+      expect(parent.children_count).to eq(2)
+    end
+
+    it "decrements children_count when child folder is removed" do
+      user = create(:user)
+      parent = create(:folder, name: "Parent", user: user)
+      child1 = create(:folder, name: "Child 1", parent: parent, user: user)
+      child2 = create(:folder, name: "Child 2", parent: parent, user: user)
+      parent.reload
+      expect(parent.children_count).to eq(2)
+
+      child1.destroy
+      parent.reload
+      expect(parent.children_count).to eq(1)
+
+      child2.destroy
+      parent.reload
+      expect(parent.children_count).to eq(0)
+    end
+
+    it "updates children_count when child folder is moved between parents" do
+      user = create(:user)
+      parent1 = create(:folder, name: "Parent 1", user: user)
+      parent2 = create(:folder, name: "Parent 2", user: user)
+      child = create(:folder, name: "Child", parent: parent1, user: user)
+
+      parent1.reload
+      parent2.reload
+      expect(parent1.children_count).to eq(1)
+      expect(parent2.children_count).to eq(0)
+
+      child.update(parent: parent2)
+      parent1.reload
+      parent2.reload
+      expect(parent1.children_count).to eq(0)
+      expect(parent2.children_count).to eq(1)
+    end
+
+    it "has_children? uses children_count cache" do
+      user = create(:user)
+      parent = create(:folder, name: "Parent", user: user)
+      expect(parent.has_children?).to be false
+
+      create(:folder, name: "Child", parent: parent, user: user)
+      parent.reload
+      expect(parent.has_children?).to be true
+    end
   end
 end

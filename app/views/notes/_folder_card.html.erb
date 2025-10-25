@@ -18,14 +18,14 @@
       <% if folder.has_children? %>
         <div class="flex items-center">
           <%= render "shared/svg/folder" %>
-          <span><%= pluralize(folder.children.count, 'subfolder') %></span>
+          <span><%= pluralize(folder.children_count, 'subfolder') %></span>
         </div>
       <% end %>
 
       <!-- Notes Count -->
       <div class="flex items-center">
         <%= render "shared/svg/note" %>
-        <span><%= pluralize(folder.notes.count, 'note') %></span>
+        <span><%= pluralize(folder.notes_count, 'note') %></span>
       </div>
     </div>
   <% end %>

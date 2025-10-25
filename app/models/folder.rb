@@ -1,6 +1,6 @@
 class Folder < ApplicationRecord
   belongs_to :user
-  belongs_to :parent, class_name: "Folder", optional: true
+  belongs_to :parent, class_name: "Folder", optional: true, counter_cache: :children_count
   has_many :children, class_name: "Folder", foreign_key: :parent_id, dependent: :destroy
   has_many :notes, dependent: :destroy
 
@@ -16,7 +16,7 @@ class Folder < ApplicationRecord
   end
 
   def has_children?
-    children.exists?
+    children_count > 0
   end
 
   def ancestors
