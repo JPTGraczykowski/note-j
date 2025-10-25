@@ -7,7 +7,9 @@ class NotesTag < ApplicationRecord
 
   before_validation :assign_user
   after_create :increment_tag_notes_count
+  after_create :increment_note_tags_count
   after_destroy :decrement_tag_notes_count
+  after_destroy :decrement_note_tags_count
 
   private
 
@@ -21,5 +23,13 @@ class NotesTag < ApplicationRecord
 
   def decrement_tag_notes_count
     tag&.decrement!(:notes_count)
+  end
+
+  def increment_note_tags_count
+    note&.increment!(:tags_count)
+  end
+
+  def decrement_note_tags_count
+    note&.decrement!(:tags_count)
   end
 end

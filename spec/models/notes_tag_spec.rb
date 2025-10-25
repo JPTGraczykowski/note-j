@@ -51,4 +51,50 @@ RSpec.describe NotesTag, type: :model do
       expect(duplicate_notes_tag.errors[:note_id]).to include("has already been taken")
     end
   end
+
+  context "counter cache" do
+    it "increments tag notes_count when created" do
+      user = create(:user)
+      tag = create(:tag, user: user, notes_count: 0)
+      note = create(:note, user: user)
+
+      expect {
+        create(:notes_tag, note: note, tag: tag, user: user)
+      }.to change { tag.reload.notes_count }.from(0).to(1)
+    end
+
+    it "decrements tag notes_count when destroyed" do
+      user = create(:user)
+      tag = create(:tag, user: user, notes_count: 1)
+      note = create(:note, user: user)
+      notes_tag = create(:notes_tag, note: note, tag: tag, user: user)
+      tag.update!(notes_count: 1)
+
+      expect {
+        notes_tag.destroy
+      }.to change { tag.reload.notes_count }.from(1).to(0)
+    end
+
+    it "increments note tags_count when created" do
+      user = create(:user)
+      tag = create(:tag, user: user)
+      note = create(:note, user: user, tags_count: 0)
+
+      expect {
+        create(:notes_tag, note: note, tag: tag, user: user)
+      }.to change { note.reload.tags_count }.from(0).to(1)
+    end
+
+    it "decrements note tags_count when destroyed" do
+      user = create(:user)
+      tag = create(:tag, user: user)
+      note = create(:note, user: user, tags_count: 1)
+      notes_tag = create(:notes_tag, note: note, tag: tag, user: user)
+      note.update!(tags_count: 1)
+
+      expect {
+        notes_tag.destroy
+      }.to change { note.reload.tags_count }.from(1).to(0)
+    end
+  end
 end

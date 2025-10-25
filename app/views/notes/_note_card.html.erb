@@ -44,8 +44,8 @@
           <div class="flex items-center">
             <%= render "shared/svg/tag" %>
             <span><%= note.tags.limit(2).pluck(:name).join(', ') %></span>
-            <% if note.tags.count > 2 %>
-              <span class="ml-1">+<%= note.tags.count - 2 %></span>
+            <% if note.tags_count > 2 %>
+              <span class="ml-1">+<%= note.tags_count - 2 %></span>
             <% end %>
           </div>
         <% end %>
@@ -73,9 +73,9 @@
             <%= tag.name %>
           <% end %>
         <% end %>
-        <% if note.tags.count > 3 %>
+        <% if note.tags_count > 3 %>
           <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-neutral-100 text-neutral-500 rounded-md">
-            +<%= note.tags.count - 3 %> more
+            +<%= note.tags_count - 3 %> more
           </span>
         <% end %>
       </div>

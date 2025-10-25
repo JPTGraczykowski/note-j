@@ -175,6 +175,24 @@ RSpec.describe Note, type: :model do
 
       expect(note.tag_names).to match_array(["work", "urgent"])
     end
+
+    it "maintains tags_count counter cache" do
+      user = create(:user)
+      note = create(:note, user: user)
+      tag1 = create(:tag, name: "work", user: user)
+      tag2 = create(:tag, name: "urgent", user: user)
+
+      expect(note.tags_count).to eq(0)
+
+      NotesTag.create(note: note, tag: tag1, user: user)
+      expect(note.reload.tags_count).to eq(1)
+
+      NotesTag.create(note: note, tag: tag2, user: user)
+      expect(note.reload.tags_count).to eq(2)
+
+      note.notes_tags.first.destroy
+      expect(note.reload.tags_count).to eq(1)
+    end
   end
 
   context "image upload" do
