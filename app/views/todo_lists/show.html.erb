@@ -1,0 +1,113 @@
+<% content_for :title, @todo_list.title %>
+
+<div class="max-w-4xl mx-auto px-6 py-8">
+  <!-- Header -->
+  <div class="mb-6">
+    <nav class="flex items-center space-x-2 text-sm text-neutral-600 mb-2">
+      <%= link_to "Todos", todo_lists_path, class: "hover:text-neutral-900" %>
+      <%= render "shared/svg/right_arrow" %>
+      <span class="text-neutral-900 font-medium"><%= @todo_list.title %></span>
+    </nav>
+
+    <div class="flex items-center justify-between">
+      <%= render "shared/page_title", page_title: @todo_list.title %>
+
+      <!-- Status Badge -->
+      <div>
+        <% if @todo_list.completed? %>
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+            Completed
+          </span>
+        <% else %>
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+            In Progress
+          </span>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex items-center space-x-3 mt-4">
+      <%= button_to toggle_todo_list_path(@todo_list), method: :post,
+          class: "inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-700 rounded-md hover:bg-primary-800 transition-colors hover:cursor-pointer" do %>
+        <% if @todo_list.completed? %>
+          Mark as Pending
+        <% else %>
+          Mark as Completed
+        <% end %>
+      <% end %>
+
+      <%= link_to edit_todo_list_path(@todo_list),
+          class: "inline-flex items-center px-4 py-2 text-sm font-medium text-neutral-700 bg-white border border-neutral-300 rounded-md hover:bg-neutral-50 hover:cursor-pointer transition-colors" do %>
+        <%= render "shared/svg/edit" %>
+        Edit
+      <% end %>
+
+      <%= button_to todo_list_path(@todo_list), method: :delete,
+          data: { confirm: "Are you sure you want to delete this todo and all its items?" },
+          class: "inline-flex items-center px-4 py-2 text-sm font-medium text-error-700 bg-white border border-error-300 rounded-md hover:bg-error-50 hover:cursor-pointer transition-colors" do %>
+        <%= render "shared/svg/trash" %>
+        Delete
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Todo List Content -->
+  <div class="bg-white rounded-lg shadow-sm border border-neutral-200 p-6">
+    <!-- Progress Bar -->
+    <% if @todo_list.todos.any? %>
+      <div id="progress_bar" class="mb-6 pb-6 border-b border-neutral-200">
+        <div class="flex items-center justify-between text-sm text-neutral-600 mb-2">
+          <span class="font-medium">Progress</span>
+          <span><%= @todo_list.completed_todos_count %> of <%= @todo_list.todos.count %> completed (<%= @todo_list.progress_percentage %>%)</span>
+        </div>
+        <div class="w-full bg-neutral-200 rounded-full h-3">
+          <div class="bg-primary-700 h-3 rounded-full transition-all" style="width: <%= @todo_list.progress_percentage %>%"></div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Meta Information -->
+    <div class="flex items-center text-sm text-neutral-600 mb-6">
+      <div class="flex items-center space-x-4">
+        <span>
+          <strong>Created:</strong> <%= @todo_list.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+        </span>
+        <% if @todo_list.updated_at != @todo_list.created_at %>
+          <span>
+            <strong>Updated:</strong> <%= @todo_list.updated_at.strftime("%B %d, %Y at %I:%M %p") %>
+          </span>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Items List -->
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold text-neutral-900 mb-4">Items</h2>
+
+      <div id="todos_list" class="<%= @todos.any? ? 'space-y-2' : 'text-center py-8 text-neutral-500' %>">
+        <% if @todos.any? %>
+          <% @todos.each do |todo| %>
+            <%= render 'todos/todo_item', todo: todo %>
+          <% end %>
+        <% else %>
+          <p class="italic">No items yet. Add your first item below!</p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Add New Item Form -->
+    <div class="pt-6 border-t border-neutral-200">
+      <h3 class="text-md font-semibold text-neutral-900 mb-3">Add New Item</h3>
+      <%= form_with url: todo_list_todos_path(@todo_list), method: :post, scope: :todo, id: "new_todo_form", class: "flex items-start space-x-2" do |form| %>
+        <div class="flex-1">
+          <%= form.text_area :description,
+              placeholder: "What needs to be done?",
+              rows: 2,
+              class: "w-full rounded-md border-neutral-300 shadow-sm focus:border-primary-500 focus:ring-primary-500" %>
+        </div>
+        <%= form.submit "Add Item", class: "inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-700 rounded-md hover:bg-primary-800 transition-colors" %>
+      <% end %>
+    </div>
+  </div>
+</div>
