@@ -1,8 +1,8 @@
 class Note < ApplicationRecord
   include ImageUploadable
 
-  belongs_to :folder, optional: true
-  belongs_to :user
+  belongs_to :folder, optional: true, counter_cache: true
+  belongs_to :user, counter_cache: true
 
   has_many_attached :images
   has_many :notes_tags, dependent: :destroy

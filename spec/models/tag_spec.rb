@@ -100,4 +100,64 @@ RSpec.describe Tag, type: :model do
       expect(tag2.find_next_popular).to eq(tag1)
     end
   end
+
+  context "counter cache" do
+    it "increments notes_count when note is tagged" do
+      user = create(:user)
+      tag = create(:tag, user: user)
+      expect(tag.notes_count).to eq(0)
+
+      note1 = create(:note, user: user)
+      NotesTag.create(note: note1, tag: tag, user: user)
+      tag.reload
+      expect(tag.notes_count).to eq(1)
+
+      note2 = create(:note, user: user)
+      NotesTag.create(note: note2, tag: tag, user: user)
+      tag.reload
+      expect(tag.notes_count).to eq(2)
+    end
+
+    it "decrements notes_count when note is untagged" do
+      user = create(:user)
+      tag = create(:tag, user: user)
+      note1 = create(:note, user: user)
+      note2 = create(:note, user: user)
+      notes_tag1 = NotesTag.create(note: note1, tag: tag, user: user)
+      notes_tag2 = NotesTag.create(note: note2, tag: tag, user: user)
+      tag.reload
+      expect(tag.notes_count).to eq(2)
+
+      notes_tag1.destroy
+      tag.reload
+      expect(tag.notes_count).to eq(1)
+
+      notes_tag2.destroy
+      tag.reload
+      expect(tag.notes_count).to eq(0)
+    end
+
+    it "maintains correct notes_count across multiple operations" do
+      user = create(:user)
+      tag = create(:tag, user: user)
+      note1 = create(:note, user: user)
+      note2 = create(:note, user: user)
+      note3 = create(:note, user: user)
+
+      notes_tag1 = NotesTag.create(note: note1, tag: tag, user: user)
+      notes_tag2 = NotesTag.create(note: note2, tag: tag, user: user)
+      notes_tag3 = NotesTag.create(note: note3, tag: tag, user: user)
+      tag.reload
+      expect(tag.notes_count).to eq(3)
+
+      notes_tag2.destroy
+      tag.reload
+      expect(tag.notes_count).to eq(2)
+
+      note4 = create(:note, user: user)
+      NotesTag.create(note: note4, tag: tag, user: user)
+      tag.reload
+      expect(tag.notes_count).to eq(3)
+    end
+  end
 end

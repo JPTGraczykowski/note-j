@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_02_125451) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_25_095344) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -45,6 +45,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_02_125451) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "notes_count", default: 0, null: false
     t.index ["parent_id"], name: "index_folders_on_parent_id"
     t.index ["user_id", "name", "parent_id"], name: "index_folders_on_user_id_and_name_and_parent_id", unique: true
     t.index ["user_id"], name: "index_folders_on_user_id"
@@ -83,6 +84,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_02_125451) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "notes_count", default: 0, null: false
     t.index ["name"], name: "index_tags_on_name"
     t.index ["user_id", "name"], name: "index_tags_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_tags_on_user_id"
@@ -120,6 +122,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_02_125451) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "notes_count", default: 0, null: false
+    t.integer "todos_count", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["name"], name: "index_users_on_name", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true

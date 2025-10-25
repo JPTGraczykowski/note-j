@@ -177,4 +177,53 @@ RSpec.describe Folder, type: :model do
       expect(folder2.find_next_sibling).to eq(folder3)
     end
   end
+
+  context "counter cache" do
+    it "increments notes_count when note is added to folder" do
+      folder = create(:folder)
+      expect(folder.notes_count).to eq(0)
+
+      create(:note, folder: folder, user: folder.user)
+      folder.reload
+      expect(folder.notes_count).to eq(1)
+
+      create(:note, folder: folder, user: folder.user)
+      folder.reload
+      expect(folder.notes_count).to eq(2)
+    end
+
+    it "decrements notes_count when note is removed from folder" do
+      folder = create(:folder)
+      note1 = create(:note, folder: folder, user: folder.user)
+      note2 = create(:note, folder: folder, user: folder.user)
+      folder.reload
+      expect(folder.notes_count).to eq(2)
+
+      note1.destroy
+      folder.reload
+      expect(folder.notes_count).to eq(1)
+
+      note2.destroy
+      folder.reload
+      expect(folder.notes_count).to eq(0)
+    end
+
+    it "updates notes_count when note is moved between folders" do
+      user = create(:user)
+      folder1 = create(:folder, name: "Folder 1", user: user)
+      folder2 = create(:folder, name: "Folder 2", user: user)
+      note = create(:note, folder: folder1, user: user)
+
+      folder1.reload
+      folder2.reload
+      expect(folder1.notes_count).to eq(1)
+      expect(folder2.notes_count).to eq(0)
+
+      note.update(folder: folder2)
+      folder1.reload
+      folder2.reload
+      expect(folder1.notes_count).to eq(0)
+      expect(folder2.notes_count).to eq(1)
+    end
+  end
 end

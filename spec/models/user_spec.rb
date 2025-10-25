@@ -183,4 +183,64 @@ RSpec.describe User, type: :model do\
       expect(user.authenticate("wrong")).to be false
     end
   end
+
+  context "counter cache" do
+    it "increments notes_count when note is created" do
+      user = create(:user)
+      expect(user.notes_count).to eq(0)
+
+      create(:note, user: user)
+      user.reload
+      expect(user.notes_count).to eq(1)
+
+      create(:note, user: user)
+      user.reload
+      expect(user.notes_count).to eq(2)
+    end
+
+    it "decrements notes_count when note is destroyed" do
+      user = create(:user)
+      note1 = create(:note, user: user)
+      note2 = create(:note, user: user)
+      user.reload
+      expect(user.notes_count).to eq(2)
+
+      note1.destroy
+      user.reload
+      expect(user.notes_count).to eq(1)
+
+      note2.destroy
+      user.reload
+      expect(user.notes_count).to eq(0)
+    end
+
+    it "increments todos_count when todo is created" do
+      user = create(:user)
+      expect(user.todos_count).to eq(0)
+
+      create(:todo, user: user)
+      user.reload
+      expect(user.todos_count).to eq(1)
+
+      create(:todo, user: user)
+      user.reload
+      expect(user.todos_count).to eq(2)
+    end
+
+    it "decrements todos_count when todo is destroyed" do
+      user = create(:user)
+      todo1 = create(:todo, user: user)
+      todo2 = create(:todo, user: user)
+      user.reload
+      expect(user.todos_count).to eq(2)
+
+      todo1.destroy
+      user.reload
+      expect(user.todos_count).to eq(1)
+
+      todo2.destroy
+      user.reload
+      expect(user.todos_count).to eq(0)
+    end
+  end
 end
